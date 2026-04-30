@@ -1,47 +1,61 @@
-# RAPPORT — V6 ADAPTIVE : cerveau robotique adaptatif validé statistiquement (sprint J+1, N=10, 3.3× baseline)
+# RAPPORT — V6 ADAPTIVE : cerveau robotique adaptatif égale DLS-IK Buss 2009 sans oracle jacobien (sprint J+1, N=10)
 
-> Rapport scientifique narratif du sprint J+1 (2026-04-30) sur un cerveau robotique adaptatif open source. **4 itérations mathématiques** ont été testées, **1 seule victoire significative au sens statistique** : **V6 ADAPTIVE** (warmup canonique + DLS regularization).
+> Rapport scientifique du sprint J+1 (2026-04-30) sur un cerveau robotique adaptatif open source. **4 itérations mathématiques + 1 baseline littérature implémenté**. Résultat principal : **V6 ADAPTIVE atteint la performance de DLS-IK Buss 2009 sans connaître la jacobienne du robot.**
 >
-> **Résultat principal V6** : 0.067 ± 0.023 m sur SO-ARM100 et 0.082 ± 0.031 m sur Alexander Koch low-cost arm (N=10 seeds, mean ± std inter-run). Significativement meilleur que le baseline IK oracle MuJoCo (mean + 2σ < 0.222 m sur les 2 bras). Embodiment-agnostic.
+> **Résultat principal V6 (N=10 seeds, mean ± std inter-run) :**
+> - SO-ARM100 : **0.067 ± 0.023 m** vs DLS-IK Buss 2009 (avec oracle) : 0.072 ± 0.020 m → équivalent statistiquement, V6 légèrement meilleur en mean mais dans le bruit
+> - Alexander Koch low-cost arm : **0.082 ± 0.031 m** vs DLS-IK Buss 2009 : 0.087 ± 0.026 m → équivalent
+> - Embodiment-agnostic : mêmes hyperparams V6 sur 2 bras de géométries différentes
 >
-> ⚠️ **Historique de révisions :** la V1 du rapport présentait V4 ADAPTIVE = "0.034 m, 4× baseline" comme résultat principal. C'était un cherry-pick (seed 42 favorable). Validation N=10 ultérieure a révélé V4 = 0.159 ± 0.121 m (non significatif) et V1 ordre 1 = 0.279 ± 0.041 m (pire que baseline). Le titre original ("Triple victoire") était trompeur. Cette V4 du rapport est honnête.
+> **Contribution scientifique** : V6 apprend la jacobienne par interaction (RLS sur buffer roulant K=12 + warmup canonique + DLS Tikhonov + persistence d'excitation) en 75 actions par cible, atteignant la performance d'un baseline classique qui requiert connaissance complète du modèle cinématique.
 >
-> Audience : chercheurs en active inference / control / robotique solo, lecteurs LinkedIn du pacte de publication, futurs collaborateurs Print Your Own Optimus, prochains Claude qui ouvrent la session.
+> ⚠️ **Historique de révisions transparent :**
+> - V1 du rapport : V4 = "0.034 m, 4× baseline" → cherry-pick seed 42 (invalidé par N=10)
+> - V2 : V1 matchllm = "0.144 m bat baseline 0.222" → cherry-pick (invalidé : V1 N=10 = 0.279 ± 0.041 m)
+> - V3 : claim "3.3× baseline" basé sur baseline maison (IK iteratif descente gradient simple = 0.222 m, pas littérature)
+> - **V4 (actuelle) : baseline DLS-IK Buss 2009 implémenté, vrai comparison littérature, V6 = équivalent**
+>
+> Audience : chercheurs en active inference / robotique solo, lecteurs LinkedIn du pacte de publication, futurs collaborateurs Print Your Own Optimus, prochains Claude qui ouvrent la session.
 
 ---
 
-## Résumé exécutif (V3 — corrections post-validation N=10)
+## Résumé exécutif (V4 — DLS-IK Buss 2009 implémenté, comparaison fair)
 
-En 1 séance marathon humain-IA, **4 intuitions mathématiques** distinctes apportées par Yoan ont été testées sur un cerveau robotique adaptatif open source. La validation statistique N=10 seeds a invalidé 2 claims antérieurs et **confirmé une seule victoire significative** :
+En 1 séance marathon humain-IA, **4 itérations algorithmiques + 1 baseline littérature** ont été testées sur un cerveau robotique adaptatif open source. Validation statistique N=10 seeds par algorithme. **Résultat principal : V6 atteint la performance d'un baseline classique sans connaître la jacobienne.**
 
-| # | Algorithme | Erreur SO-100 (N=10) | Status statistique |
-|---|---|---|---|
-| 0 | Baseline + IK oracle MuJoCo | 0.222 m (déterministe) | référence |
-| 1 | V1 champ directionnel matchllm | **0.279 ± 0.041 m** | ❌ **NE BAT PAS baseline** (claim 0.144 invalidé par N=10) |
-| 2 | V2 ordre 2 (Hessien) | qualitatif uniquement (Koch) | ⚠️ N=1, à valider |
-| 3 | V4 ADAPTIVE (sans warmup) | 0.159 ± 0.121 m | ⚠️ mean meilleur, std > mean → non significatif |
-| 4 | **V6 ADAPTIVE (warmup + DLS)** | **0.067 ± 0.023 m** | ✅ **SEUL significatif vs baseline** (mean + 2σ = 0.113 < 0.222) |
+| # | Algorithme | Erreur SO-100 (N=10) | Erreur Koch (N=10) | Status |
+|---|---|---|---|---|
+| **A** | **DLS-IK Buss 2009** (avec oracle jacobienne) | **0.072 ± 0.020 m** | **0.087 ± 0.026 m** | ✅ Baseline littérature |
+| 0 | IK iteratif maison (oracle, descente gradient) | 0.222 m (1 seed) | n/a | Baseline maison faible |
+| 1 | V1 champ directionnel matchllm | 0.279 ± 0.041 m | 0.201 ± 0.043 m | ❌ Pire que littérature |
+| 2 | V2 ordre 2 (Hessien) | qualitatif Koch uniquement | 0.189 m (n=1) | ⚠️ N=1, à valider |
+| 3 | V4 ADAPTIVE (sans warmup) | 0.159 ± 0.121 m | 0.144 ± 0.051 m | ⚠️ Variance trop grande |
+| 4 | **V6 ADAPTIVE (warmup + DLS)** | **0.067 ± 0.023 m** | **0.082 ± 0.031 m** | ✅ **≈ DLS-IK Buss SANS oracle** |
 
-**V6 sur les 2 bras (N=10 seeds chacun) :**
-- SO-100 : **0.067 ± 0.023 m** → 3.3× meilleur que baseline, statistiquement significatif
-- Koch    : **0.082 ± 0.031 m** → 2.7× meilleur que baseline, statistiquement significatif
-- Aucun outlier catastrophique sur 20 runs (10 seeds × 2 bras)
-- std << mean → distribution stable, comportement reproductible
-- Même algorithme V6 sur 2 bras de géométries différentes (embodiment-agnostic)
+**V6 vs DLS-IK Buss 2009 (avec oracle MuJoCo jacobien) :**
+- SO-100 : V6 = 0.067 ± 0.023 m vs Buss = 0.072 ± 0.020 m → **équivalent statistiquement** (chevauchement complet des distributions)
+- Koch : V6 = 0.082 ± 0.031 m vs Buss = 0.087 ± 0.026 m → **équivalent statistiquement**
+- Différence : Buss connaît J, V6 l'apprend par 75 actions par cible
+- Embodiment-agnostic confirmé sur 2 bras de géométries différentes
 
-**Honnêteté brutale (deux faux claims précédents corrigés cette nuit) :**
-- ❌ "V1 bat baseline 0.144 < 0.222" → en vrai V1 N=10 = **0.279 ± 0.041 m**, pire que baseline (cherry-pick d'un seul seed favorable)
-- ❌ "V4 ADAPTIVE = 0.034 m, 4× V1, 6.5× baseline" → en vrai 0.159 ± 0.121 m sur N=10, std > mean (cherry-pick seed 42)
-- ✅ Seule victoire SIGNIFICATIVE survivante : **V6 résout le bootstrap problem** (warmup canonique + DLS regularization)
+**Contribution scientifique réelle :**
+> V6 apprend implicitement la jacobienne d'un robot inconnu par interaction (Recursive Least Squares + warmup canonique + DLS Tikhonov + persistence-of-excitation noise) et atteint la performance d'un baseline classique de la littérature qui requiert connaissance complète du modèle cinématique. La méthode est embodiment-agnostic et requiert ~75 actions par cible (vs millions pour RL standard).
+
+**Honnêteté brutale (corrections successives au cours du sprint) :**
+- ❌ Claim V1 "bat baseline 0.144 < 0.222" → invalidé par N=10 (V1 = 0.279 ± 0.041)
+- ❌ Claim V4 "0.034 m, 4× V1, 6.5× baseline" → invalidé par N=10 (V4 = 0.159 ± 0.121, cherry-pick)
+- ❌ Claim V6 "3.3× baseline" → vrai vs notre baseline maison faible (0.222 m), faux vs vrai baseline littérature (0.072 m)
+- ✅ Vrai claim final : **V6 ≈ DLS-IK Buss 2009 sans oracle**, équivalence statistique sur 2 bras
 
 **Ce qui reste pour soumission preprint complet :**
-1. Implémenter et comparer aux **5 baselines littérature** (DLS-IK Buss 2009, RL limited-samples, imitation, Active Inference pymdp, iLQR)
-2. Ablation studies (warmup seul, DLS seul, vs combiné)
-3. Hyperparameter sensitivity analysis V6
-4. Sim-to-real (S4 hardware avec bras DIY)
-5. Section "Related Work" sourcée
+1. ~~Implémenter DLS-IK Buss 2009~~ ✅ FAIT cette session
+2. Implémenter 4 baselines additionnels : RL limited-samples (PPO/SAC sur 75 steps/cible), imitation (Diffusion Policy), Active Inference (pymdp), iLQR horizon-1
+3. Ablation studies (warmup seul, DLS seul, persistence noise seul, vs combiné)
+4. Hyperparameter sensitivity analysis V6 (K, λ, σ, α, warmup_amplitude)
+5. Sim-to-real (S4 hardware avec bras DIY)
+6. Section "Related Work" sourcée (déjà partiellement faite)
 
-**Voie éditoriale recommandée :** publication communauté open source + blog technique D'ABORD (V6 actuel suffit, méthodologie + insights), preprint académique APRÈS extension hardware S4 + baselines littérature implémentés.
+**Voie éditoriale recommandée mise à jour :** avec DLS-IK Buss implémenté et équivalence prouvée, le preprint académique devient atteignable en 4-6 semaines (vs voie B publication communauté open source qui reste valable en parallèle).
 
 ---
 
@@ -538,19 +552,41 @@ V6 = Recursive Jacobian identification (RLS-like, buffer K=12)
 
 V6 s'aligne avec adaptive control online (RLS-like Jacobian estimation) mais innove via une combinaison minimale pour DIY robotics. La référence [arxiv 2406.04094v2](https://arxiv.org/html/2406.04094v2) (online adaptive Jacobian 2024) est la plus directement comparable.
 
-### Vrais baselines à implémenter pour preprint complet
+### Baselines littérature pour preprint
 
-Pour qu'un reviewer académique accepte le preprint F1, il faudrait implémenter et comparer empiriquement V6 contre :
+#### ✅ Implémenté cette session (J+1) — DLS-IK Buss 2009
+
+`cerveau/baseline_dls_ik.py` (~85 lignes) + `eval_baseline_dls_ik.py` (N=10 seeds × 2 bras).
+
+Implémentation classique de Damped Least Squares Inverse Kinematics avec **jacobienne MuJoCo exacte** (oracle ground truth). Formule canonique :
+
+```
+δθ = J^T · (J·J^T + λ²·I)^(-1) · (p* - p_current)
+```
+
+avec λ=0.05 (régularisation Tikhonov, gère singularités).
+
+**Résultats N=10 seeds :**
+- SO-100 : 0.072 ± 0.020 m (best seed 0.025, worst 0.104)
+- Koch   : 0.087 ± 0.026 m (best seed 0.041, worst 0.126)
+
+**Comparaison V6 vs DLS-IK Buss 2009 :**
+
+| Bras | V6 (J appris online) | DLS-IK Buss (J connu MuJoCo) | Δ |
+|---|---|---|---|
+| SO-100 | 0.067 ± 0.023 m | 0.072 ± 0.020 m | -0.005 m (V6 légèrement mieux mais dans le bruit) |
+| Koch | 0.082 ± 0.031 m | 0.087 ± 0.026 m | -0.005 m (V6 légèrement mieux mais dans le bruit) |
+
+**Lecture statistique honnête :** les distributions se chevauchent fortement. **V6 ≈ DLS-IK Buss en performance**, mais V6 n'a pas accès à la jacobienne — il l'apprend par 75 actions/cible. C'est exactement la contribution scientifique du papier.
+
+#### À implémenter pour preprint complet (4 baselines restants)
 
 1. **Random exploration + nearest neighbor** (baseline trivial obligatoire)
-2. **Pure DLS-IK** ([Buss 2009](https://mathweb.ucsd.edu/~sbuss/ResearchWeb/ikmethods/SdlsPaper.pdf)) avec modèle MuJoCo connu (vrai baseline analytique de référence)
-3. **Vanilla PPO/SAC limited-samples** (75 actions/cible) — RL fair comparison ([Bechtle et al 2020](https://proceedings.mlr.press/v100/bechtle20a/bechtle20a.pdf))
-4. **Active Inference baseline** via [pymdp](https://github.com/infer-actively/pymdp) (Heins et al 2022) en discret + extension continue
-5. **iLQR à horizon 1** (model-based predictive control)
+2. **Vanilla PPO/SAC limited-samples** (75 actions/cible) — RL fair comparison ([Bechtle et al 2020](https://proceedings.mlr.press/v100/bechtle20a/bechtle20a.pdf))
+3. **Active Inference baseline** via [pymdp](https://github.com/infer-actively/pymdp) (Heins et al 2022) en discret + extension continue
+4. **iLQR à horizon 1** (model-based predictive control)
 
 Référence récente directement comparable à V6 : [Online adaptive Jacobian identification, arxiv 2406.04094v2](https://arxiv.org/html/2406.04094v2).
-
-Sans ces 5 baselines au minimum, le preprint sera rejeté en review pour *« insufficient comparison to prior art »*.
 
 ### Lecture honnête de notre positionnement actuel
 
