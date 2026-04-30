@@ -10,12 +10,13 @@
 
 > Si Max plan a coupé la session, c'est ce bloc qui dit où reprendre. Mis à jour à chaque action significative (Claude la rafraîchit en checkpoint fréquent — pas attendre fin de session).
 
-- **Dernière action faite :** 2026-04-29 — setup complet 7 trous + Cyborg vocal activé + protocole reprise écrit. Sprint prêt à démarrer.
+- **Dernière action faite :** 2026-04-29 — setup complet 7 trous + Cyborg vocal activé + protocole reprise écrit + **repo public `yoanMaisonneuve/dyad` créé et pushé** (https://github.com/yoanMaisonneuve/dyad — 42 fichiers, branche master).
 - **Prochaine action prévue :** J+1 (2026-04-30 matin) — Yoan déclare *« mode déléguée, sprint robotique J+1 »* → Claude lance 5 subagents parallèles (~380K tokens) + post LinkedIn #2 du sprint en cours.
 - **Subagents en background :** aucun (sprint pas encore démarré)
 - **Tokens cumulés sprint :** 0 / ~4-5M cible
 - **État fichiers en cours d'édition :** aucun (tout atomique)
-- **Bloqueurs :** question Yoan en attente — git init dans openClaude/ ? (versionner les MD du sprint)
+- **Bloqueurs :** aucun — sprint prêt à démarrer J+1.
+- **Discipline git active :** commit + push après chaque action significative (protocole reprise mécanisme #2 + #5).
 
 **Phrase de reprise pour Yoan :** *« reprend le sprint »* → Claude lit ce bloc + HEARTBEAT.md + dernier fichier modifié dans `personnel/` + memory `project_sprint_robotique` → propose la reprise.
 
