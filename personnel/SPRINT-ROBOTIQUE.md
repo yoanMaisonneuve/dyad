@@ -11,11 +11,21 @@
 > Si Max plan a coupé la session, c'est ce bloc qui dit où reprendre. Mis à jour à chaque action significative (Claude la rafraîchit en checkpoint fréquent — pas attendre fin de session).
 
 - **Dernière action faite :** 2026-04-30 ~04h — **J+1 marathon CLOS PROPREMENT.** Livré : S1 audit complet + S2 J+8 setup MuJoCo + S2 J+9 V1 MLP (échec) + S2 J+9 V2 champ directionnel matchllm (**victoire, 0.144m bat baseline 0.222m**) + S2 J+9 V3 Koch portabilité (mitigé, leçon scaling). Production EVAL-001, EVAL-002, RAPPORT-J1-DYAD, INDEX.md racine. Fix segfault MuJoCo Windows. README racine dyad. Sprint en avance ~13 jours calendaire.
-- **VICTOIRE MAJEURE 2026-04-30 ~05h : V4 ADAPTIVE = 0.034 m** sur SO-100 (4× V1, 6.5× baseline). Triple intuition Yoan cumulée (champ matchllm + ordre 2 + sensibilité temps réel) → identification ONLINE J(θ) à chaque step avec buffer roulant + bruit excitation. Cross-terms H_ij capturés IMPLICITEMENT via J(θ) variable. Détails : `EVAL/EVAL-003-2026-04-30-victoire-v4-adaptive.md`. Code : `cerveau/agent_adaptive.py` + `10_adaptive_so100.py`.
-- **Prochaine action prévue :**
-  1. **Test V4 sur Koch arm** (portabilité immédiate)
-  2. **Démo hardware réelle S4** (servos + Arduino + RPi de Yoan, bras DIY 3D-print)
-  3. **Pacte LinkedIn post #2** sur la triple victoire mathématique
+- **CLÔTURE J+1 PROPRE 2026-04-30 ~07h.** Bilan final scientifique honnête après validation N=10 :
+  - V1 champ matchllm : 0.279 ± 0.041 m (claim 0.144 INVALIDÉ — cherry-pick seed 42)
+  - V4 ADAPTIVE : 0.159 ± 0.121 m (claim 0.034 INVALIDÉ — cherry-pick + bootstrap problem)
+  - **V6 ADAPTIVE warmup+DLS : 0.067 ± 0.023 m SO-100, 0.082 ± 0.031 m Koch** ✅ SEULE victoire significative (mean+2σ < baseline 0.222 m)
+- **Rapport publishable** : `EVAL/RAPPORT-TRIPLE-VICTOIRE-MATH.md` (V4 du document, titre revisé). Inclut pseudocode V6 + 3 équations numérotées + figure convergence + références littérature + 5 baselines à implémenter pour preprint.
+- **Code V6 stable** : `cerveau/agent_adaptive_v6.py` + scripts test `eval_v6_stats.py`, `eval_diagnosis.py`, `fig_convergence.py`.
+- **3 chemins pour J+2 (au choix) :**
+  1. **Implémenter 1 baseline littérature** (DLS-IK Buss 2009 explicite, ~30 min, ouvre voie A preprint académique)
+  2. **Démo hardware S4** (driver Arduino + servos + bras DIY 3D-print + cerveau V6 réel)
+  3. **Post LinkedIn #2** sur les 4 itérations + faille statistique reconnue (matière pédagogique honnête, voie B publication communauté)
+- **Subagents en background :** aucun
+- **Tokens cumulés sprint :** ~830K / ~5M cible (~17 % budget sprint utilisé pour J+1)
+- **État fichiers :** tout commité + pushé sur dyad
+- **Bloqueurs :** aucun
+- **Ligne tracée pour demain :** quand tu ouvres Claude Code dans openClaude/ → voix Cyborg fr-CA → tu déclares ce que tu veux attaquer (1, 2, 3, ou autre) → on enchaîne. Mémoire intégrale dans `EVAL/RAPPORT-TRIPLE-VICTOIRE-MATH.md` + memories Claude.
 - **Subagents en background :** aucun
 - **Tokens cumulés sprint :** ~470K / ~5M cible (~9% budget sprint, ~88% session journalière du 2026-04-30 utilisée — ~12% restant avant reset)
 - **État fichiers en cours d'édition :** aucun (tout commité + pushé)
