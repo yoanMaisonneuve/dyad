@@ -10,19 +10,25 @@
 
 > Si Max plan a coupé la session, c'est ce bloc qui dit où reprendre. Mis à jour à chaque action significative (Claude la rafraîchit en checkpoint fréquent — pas attendre fin de session).
 
-- **Dernière action faite :** 2026-04-29 soir — **5/5 subagents J+1 terminés**. Synthèse condensée écrite dans `personnel/SPRINT-J1-RAPPORTS.md`. Sprint S1 audit/scope = COMPLET.
-- **Prochaine action prévue :** Yoan tranche **3 décisions critiques** (cf. `SPRINT-J1-RAPPORTS.md` section finale) :
-  1. **Pivot vertical** : "humanoïde manuf générique" vs vertical aligné L4 (construction modulaire / énergie / alimentation) — Claude vote pivot construction modulaire (synergie chantier3D)
-  2. **Commande SO-ARM101 J+5** (~600 CAD, livraison 3 sem) — Claude vote OUI conditionnel à décision 1
-  3. **Technical disclosure IP.com J+5** (~250 CAD défensif IP) — Claude vote OUI sans condition
-- **Subagents en background :** aucun (tous 5 terminés)
-- **Tokens cumulés sprint :** ~120K / ~4-5M cible (5 subagents ~80K + overhead ~40K)
+- **Dernière action faite :** 2026-04-29 soir — Yoan tranche les 3 décisions critiques + **PIVOT MAJEUR vers "Print Your Own Optimus"** :
+  1. ✅ Pivot construction ACCEPTÉ + EXTENDED en **"Print Your Own Optimus"** (framework cerveau opensource auto-calibré + humanoïde DIY 3D-print pour chaque foyer). Démo concrète = bras qui assemble **tuiles magnétiques pour enfants** (Magna-Tiles).
+  2. ❌ Commande SO-ARM101 REJETÉE — on utilise **matériel déjà en stock Yoan** (servos + Arduino + Raspberry Pi + bridge moteur). Zéro dépense externe. Pièces structure = impression 3D.
+  3. ❌ IP disclosure REJETÉ — *« on construit par altruisme, pas de paperasse »* (cf. memory `feedback_construire_par_altruisme.md`)
+- **Prochaine action prévue :** refonte du plan sprint (`personnel/objectifopus47.md`) sur la nouvelle base Print Your Own Optimus. Yoan valide après, puis on attaque S2.
+- **Subagents en background :** aucun
+- **Tokens cumulés sprint :** ~120K / ~4-5M cible
 - **État fichiers en cours d'édition :** aucun
-- **Bloqueurs :** 3 décisions Yoan en attente
+- **Bloqueurs :** validation Yoan sur la refonte du plan sprint (en attente de "go refonte")
 - **Discipline git active :** commit + push après chaque action significative.
-- **Stack technique cristallisé :** SO-ARM101 + MuJoCo + LeRobot framework + politique active inference custom (pymdp+PyTorch) + 3 contrôleurs comparés (AIF/iLQR/MPC CasADi). Licences : Apache 2.0 + CERN-OHL-P v2 + CC-BY 4.0 + CDLA-Permissive.
-- **Thèse F1 cristallisée :** "AIF avec generative model gaussien horizon fini = NMPC sous régularité H1-H4 ; différence épistémique (uncertainty-seeking via EFE) pas algorithmique." Trou exploitable : nonlinéaire continu + démo robot side-by-side.
-- **🚨 Risque IP critique signalé :** brevet VERSES US 12,393,581 B2 (août 2025) — éviter absolument UI "décris ton robot en NL → je génère agent AIF".
+- **Stack technique mise à jour :**
+  - **Hardware :** matériel existant Yoan (servos, Arduino, RPi, bridge moteur) + impression 3D pièces structure. Démo support = tuiles magnétiques.
+  - **Sim :** Isaac + Gazebo (choix Yoan, gratuits, parallèles). NB : rapport (c) avait flagué Isaac=lourd Windows + Gazebo=déprécié manipulation. **MuJoCo en backup possible** (Windows-friendly, à ajouter si problèmes Isaac/Gazebo).
+  - **Framework :** LeRobot HF utilisable avec bras DIY via MJCF/URDF custom. Politiques pré-entraînées HF utilisables comme baseline.
+  - **Politique :** active inference custom (pymdp + PyTorch) avec extension auto-calibration corporelle (Yoan définit AIF comme "le code apprend son corps").
+  - **Comparaison preprint F1 :** 3 contrôleurs (AIF auto-calibrant / iLQR / MPC CasADi) sur même `forward_dynamics(x,u)`.
+  - **Licences :** Apache 2.0 (code) + CC-BY 4.0 (docs) + CDLA-Permissive (datasets). Pas de CERN-OHL pour hardware (simplicité avant tout — Yoan : "pas de paperasse").
+- **Thèse F1 enrichie :** "AIF avec generative model gaussien horizon fini = NMPC sous régularité H1-H4. Cas d'application puissant : auto-modélisation corporelle (le robot apprend son propre corps via AIF, lineage Lanillos iCub/rubber-hand)."
+- **Vision civilisationnelle directe :** Print Your Own Optimus = chaque foyer imprime son humanoïde + installe le cerveau opensource. Démocratise la robotique humanoïde au lieu d'attendre Tesla/Figure.
 
 **Phrase de reprise pour Yoan :** *« reprend le sprint »* → Claude lit ce bloc + HEARTBEAT.md + dernier fichier modifié dans `personnel/` + memory `project_sprint_robotique` → propose la reprise.
 
