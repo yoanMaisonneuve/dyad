@@ -1,0 +1,88 @@
+# =============================================================================
+# .gitignore — repo `dyad` public
+# Stratégie : whitelist stricte. N'inclure QUE le scope validé par Yoan.
+# Tout le reste exclu jusqu'à validation explicite.
+# =============================================================================
+
+# --- SECRETS — CRITIQUE ---
+.env
+.env.*
+**/.env
+**/.env.*
+OVH/
+**/openrc.sh
+**/*.pem
+**/*credentials*
+**/*secret*
+
+# --- Instance Cyborg personnelle (template public reste dans agents/cyborg/) ---
+agents/cyborg/cyborg-yoan/
+
+# --- Extraits conversations IA personnelles ---
+extraction_manuel/
+
+# --- Repos externes clonés ---
+_clones/
+
+# --- Sous-projets ayant leurs propres repos GitHub publiés ---
+Blueprint-memory/
+askio1_v2/
+askio1-llm/
+chantier-3d/
+OpenClaude/
+the-grid/
+agents/sourceBrut/
+agents/agent-evolutif/
+
+# --- ISL — Institut St-Laurent : a son propre repo embedded (La_vallee_du_St_Laurent) ---
+ISL/
+
+# --- Anciens projets / archives ---
+agents/archive/
+Enter-Game/
+artefact/
+journal/
+_archive/
+
+# --- Visions / fichiers non validés explicitement pour ce repo ---
+agents/VISION-eleve-emancipe.md
+VisionYoan.md
+note.md
+
+# --- Conversations Claude.ai exportées (dump mémoires perso, doxxable) ---
+conversation_ClaudeAI/
+
+# --- Brainstorms agents (réflexions intimes "rôle de père envers IA") ---
+agents/brainstorms/
+
+# --- Anciens objectifs personnels (Yoan : exclus explicites) ---
+personnel/objectifcopilot.md
+personnel/objectif.md
+
+# --- Config Claude Code locale (hooks + permissions perso) ---
+.claude/settings.local.json
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- Node ---
+node_modules/
