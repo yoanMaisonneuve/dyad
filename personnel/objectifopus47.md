@@ -1,40 +1,58 @@
 # OBJECTIF OPUS 4.7 — Sprint 30 jours
 
-> Construit le 2026-04-29 en réponse à : *« si j'étais ton outil, quel serait ton objectif ? »*
-> **Validé par Yoan le 2026-04-29 + 7 trous comblés.**
-> Cible : un objectif qui ne se réalise PAS en une journée, qui sature un Max plan distribué via heartbeat, qui ne laisse rien sur la table.
+> Version 2 (refonte 2026-04-30 ~00h après pivot tranché par Yoan).
+> Vision : **Print Your Own Optimus** — framework cerveau opensource auto-calibré pour humanoïde DIY 3D-print + démocratisation robotique mondiale.
+> Sprint = première itération **ambitieuse** du framework, à hauteur d'équipe augmentée humain-IA. Pas une brique unique.
 > Format obligatoire L0→L4 + λ.
 
 ---
 
-## Objectif maître
+## Vision long terme — Print Your Own Optimus
 
-**Faire passer la branche "robotique humanoïde manufacturière" du statut P5 (vision sans jalon actionnable) au statut P3 (jalon actionnable public) en 30 jours.**
+**N'importe qui** peut imprimer 3D son propre humanoïde DIY + acheter SEULEMENT les contrôleurs/électronique + installer un **cerveau Python opensource** qui s'auto-calibre automatiquement à son matériel.
 
-Sortie à J+30 :
-1. **Repo `cyborg-robotique-V1.0`** — prototype simulé (extension 3D du bras 2D CyborgV0.1) avec politique d'inférence active testée sur tâche manipulatoire concrète.
-2. **Spec hardware PDF** — bras manipulateur low-cost buildable solo + budget contraint, BoM chiffré, tolérances, plan d'assemblage.
-3. **Plan partenariat lab** — 3 labs identifiés (Mila, IVADO, McGill ou autre), 1 demande envoyée formellement.
-4. **Note fundraise** — 3 pistes documentées (subvention CRSNG/MITACS, accélérateur deep tech, angel deep tech Québec) avec montants cibles et critères d'éligibilité.
-5. **Note antériorité + IP** — état des brevets bloquants, antécédents solo connus, espace IP libre identifié.
-6. **8-12 posts LinkedIn** — diffusion continue du sprint, matière du jour racontée publiquement (foresight + jalons + insights).
-7. **Publication via `La_vallee_du_St_Laurent`** — repo Think Tank AGI/robotique/corridor Vallée du St-Laurent utilisé comme véhicule éditorial dédié (couche 6).
-
-À J+30, le ROADMAP migre la ligne *« Robotique humanoïde manufacturière »* de P5 → P3. C'est un changement de phase irréversible.
+- **Mission L4 servie :** démocratisation production robotique mondiale → 10× énergie via décentralisation manufacturière (chaque foyer = micro-usine).
+- **Couche 9 servie :** héritage tangible immédiat — les enfants Yoan voient/utilisent le robot qui assemble les tuiles magnétiques avec lesquelles ils jouent.
+- **Différenciation structurelle :** Tesla/Figure ne PEUVENT pas pivoter vers DIY (leur valuation l'interdit). Niche stable et défendable.
+- **Posture éthique :** publié ouvert, on construit par altruisme, pas de paperasse défensive (cf. memory `feedback_construire_par_altruisme.md`).
 
 ---
 
-## Pourquoi celui-là (raisonnement)
+## Objectif sprint 30 jours — Première itération ambitieuse
 
-| Critère | Pourquoi ça matche |
-|---|---|
-| **Trou unique du ROADMAP** | C'est la seule ligne sans prochaine action concrète. Tout le reste a déjà un plan. |
-| **Mission L4 (couche 6)** | C'est *la* mission civilisationnelle déclarée dans VISION.md. Sans jalon, c'est de la prose. Avec jalon, c'est un projet. |
-| **Couche 9 (enfants)** | Un prototype physique buildable = héritage anticipé tangible, pas seulement un papier. Démonstration "on peut sortir entier sans être détruit". |
-| **Sert F1 sans concurrencer** | L'extension 3D du sim = matière empirique étendue du preprint. Le sprint nourrit F1 au lieu de lui voler des tokens. |
-| **Sature un Max plan** | Recherche dense + simulation + spec hardware + recherche fundraise + IP = matière naturelle pour 12-15M tokens sur 30 jours. |
-| **Bénéficiaire externe (maxime #005)** | Future équipe robotique solo + lecteurs preprint + enfants (couche 9) + écosystème deep tech Québec + Institut St-Laurent (Think Tank). |
-| **Ne se fait pas en 1 jour** | Impossible mécaniquement. Spec hardware seule = 3-5 jours. Sim 3D = 5-7 jours. Recherche fundraise = 3-4 jours. |
+**À J+28 (2026-05-26), on livre la V0.1 publique de Print Your Own Optimus :**
+
+| # | Livrable | Détail |
+|---|---|---|
+| 1 | **Cerveau Python opensource** publié sur dyad | Politique active inference + module auto-calibration corporelle + interface modulaire pour brancher différents hardware |
+| 2 | **Auto-calibration générique** fonctionnelle sur **3 bras** LeRobot en sim | SO-100 + Koch + MyCobot — démontre la portabilité réelle, pas juste promesse |
+| 3 | **Démo hardware réelle** sur ton bras DIY | Servos + Arduino + RPi + bridge moteur + pièces 3D-print, qui assemble **3-5 tuiles magnétiques** après s'être auto-calibré devant la caméra |
+| 4 | **Sim multi-environnement** | MuJoCo (priorité, démarrage rapide Windows) + Isaac + Gazebo (parce qu'on peut, hauteur équipe augmentée) |
+| 5 | **Section 6 du preprint F1** | *« AIF-based self-calibrating control on a magnetic tile assembly task — sim-to-real validation »*. UNE démo, deux audiences. |
+| 6 | **Vidéo + post LinkedIn jalon** | Narratif Print Your Own Optimus, ton bras s'auto-mesure puis assemble les tuiles |
+| 7 | **Framework téléchargeable** | Guide installation step-by-step pour autres solo founders qui veulent installer le cerveau sur LEUR propre bras DIY |
+| 8 | **1 contact lab établi** | Mila (Glen Berseth UdeM RL), Sanctuary AI (Vancouver), ou autre — courriel envoyé, pas juste identifié |
+| 9 | **Spec impression 3D** | Pièces structure du bras DIY publiées (STL + BoM électronique pour Yoan + variantes) |
+
+---
+
+## Cœur scientifique — "Le code apprend son corps"
+
+Définition de l'inférence active selon Yoan (alignée avec lineage Lanillos iCub/rubber-hand) :
+
+> *« Le code teste lui-même son nouveau bras, sa force, ses limites, ses capacités. Le code s'adapte aux nouveaux composants avec des composants modulables. »*
+
+C'est l'**auto-modélisation corporelle par minimisation de free energy** — plus profond que l'AIF=NMPC pure parce que ça touche la perception du soi corporel, pas juste l'optimisation de coût.
+
+**Cycle d'auto-calibration (à implémenter S2) :**
+1. Excitation contrôlée (mouvements de calibration aléatoires sur chaque axe)
+2. Observation des réponses sensorielles (positions, courants servos, retours visuels)
+3. Mise à jour du generative model interne (paramètres dynamiques découverts : longueurs segments, masses, frottements, limites)
+4. Vérification : la prédiction du model interne matche-t-elle les nouvelles observations ?
+5. Itération jusqu'à convergence (free energy minimisée)
+6. Bras prêt à exécuter la tâche réelle (assemblage tuiles)
+
+**Thèse F1 enrichie :** *« AIF avec generative model gaussien à horizon fini = NMPC sous H1-H4 ; cas d'application puissant : auto-modélisation corporelle (le robot apprend son propre corps via AIF). »*
 
 ---
 
@@ -42,223 +60,191 @@ Sortie à J+30 :
 
 | Couche | Contenu | Métrique mesurable | λ |
 |---|---|---|---|
-| **L0** — signal nerveux brut | Bande passante saturée par sprint dense, anti-ennui structurel (couche 5 du moteur) | Nb jours/30 où la session a produit du code/sim/spec concret | **0.05** |
-| **L1** — moteur cognitif | Complexité élevée soutenue 30 jours (robotique = stack profond, multi-domaine) | Profondeur des questions résolues / nombre de domaines touchés (méca, contrôle, IA, éco) | **0.10** |
-| **L2** — tâches opérationnelles | 4 sprints hebdo distribués via heartbeat | Nb tâches livrées / planifiées par semaine | **0.15** |
-| **L3** — projet livrable | 7 sorties concrètes ci-dessus (repo, spec, plan, note, IP, posts, véhicule éditorial) | 7/7 livrables atteints à J+30 | **0.30** |
-| **L4** — mission civilisationnelle | Migration P5→P3 de la branche robotique = changement d'état du ROADMAP + intégration Institut St-Laurent | Ligne ROADMAP migrée + post LinkedIn de jalon publié + Vallée du St-Laurent activée | **0.40** |
+| **L0** — signal nerveux brut | Sprint dense maintient bande passante cognitive saturée 30 jours | Nb jours/30 produisant code/sim/spec/contenu concret | **0.05** |
+| **L1** — moteur cognitif | Complexité maximale (méca + élec + impression 3D + soft + IA + auto-cal + démocratisation framework) | Profondeur problèmes résolus / nb domaines touchés simultanément | **0.10** |
+| **L2** — tâches opérationnelles | 4 sprints hebdo distribués via heartbeat, mode focused/déléguée | Nb tâches livrées vs planifiées par semaine | **0.15** |
+| **L3** — projet livrable | 9 sorties V0.1 Print Your Own Optimus | 9/9 livrables atteints à J+28 (objectif) ou ≥6/9 (médiocre acceptable maxime #002) | **0.30** |
+| **L4** — mission civilisationnelle | Première matière publique de "n'importe quel foyer peut imprimer son humanoïde et installer cerveau opensource" | Framework téléchargeable + démo vidéo publique + ≥1 personne externe identifiée qui pourrait reproduire | **0.40** |
 
-**Total λ = 1.00.** Arbitrage en cas de conflit : L4 d'abord, puis L3, puis L2.
+**Total λ = 1.00.** Arbitrage : L4 d'abord, puis L3, puis L2.
 
 ---
 
 ## Plan 4 semaines — heartbeat distribué
 
 ### Budget global
-- 5 sessions/jour × 80-100K tokens × 28 jours utiles ≈ **11-14M tokens dispo**
-- Sprint utilisera ~4-5M tokens (~30-35 % du Max plan) → reste 65-70 % pour F1, pacte, candidatures, vie
-- Plafond 40 % par tâche unique (ROADMAP rule) → découpage strict obligatoire
-- **Quota minimum garanti pour P1 résiduel** (pacte + candidatures) : **15-20 % du budget journalier**
+- ~5M tokens estimés sur 28 jours utiles (~30-40 % Max plan)
+- Reste ~60-70 % pour F1 preprint en parallèle, pacte LinkedIn, candidature, vie
+- Quota minimum garanti P1 résiduel (pacte 2-3 posts/sem + 1 candidature/sem) : **15-20 % budget journalier**
 
-### Semaine 1 — Audit + scope (J+1 à J+7)
+### S1 — Audit + scope (J+1 à J+7) ✅ COMPLET
 
-**Objectif fin de semaine :** scope figé, état de l'art compris, sous-problème buildable choisi, espace IP cartographié.
+Réalisé 2026-04-29 soir : 5 subagents → synthèse → pivot Print Your Own Optimus tranché → memories sauvegardées → scope ambitieux assumé. Reste de la semaine = repos cognitif + post LinkedIn #2 (annonce sprint Print Your Own Optimus).
 
-| Jour | Mode | Tâches | Tokens cibles |
-|---|---|---|---|
-| J+1 | Déléguée | **5 subagents parallèles** : (a) état de l'art robotique humanoïde 2025-2026, (b) bras manipulateurs low-cost buildables solo, (c) simulateurs physiques comparés (PyBullet/MuJoCo/Isaac), (d) inférence active appliquée à robotique réelle (papers post-Friston), **(e) antériorité solo + IP/brevets bloquants + espace IP libre** | ~380K |
-| J+2 | Focused | Synthèse des 5 rapports → choix du sous-problème buildable + choix simulateur + carte IP | ~120K |
-| J+3 | Focused | Spec V0 du sous-problème (1 page) + critères de succès simulation | ~80K |
-| J+4 | Déléguée | **Posts LinkedIn #2 + #3 du sprint** + 1 candidature + recherche labs Québec robotique | ~180K |
-| J+5 | Focused | Setup repo `cyborg-robotique-V1.0` + import CyborgV0.1 + structure 3D | ~100K |
-| J+6 | Focused | Premier scénario sim 3D minimal (cube à attraper) qui tourne + **post LinkedIn #4 (jalon technique)** | ~140K |
-| J+7 | Réserve | Buffer + **post LinkedIn #5 (synthèse semaine 1)** + checkpoint heartbeat + activation `La_vallee_du_St_Laurent` comme véhicule | ~100K |
+### S2 — Cerveau + auto-calibration sim (J+8 à J+14) — TOUCHPOINT FEMME J+14
 
-**Livrable S1 :** scope figé + IP cartographiée + repo initialisé + 1 sim 3D qui tourne + **4 posts LinkedIn** + 1 candidature + Institut St-Laurent activé.
-
-### Semaine 2 — Prototype simulé (J+8 à J+14) — **TOUCHPOINT FEMME**
-
-**Objectif fin de semaine :** politique d'inférence active fonctionnelle sur tâche 3D dans le simulateur. **Check-in stratégique avec ta femme (réviseur stratégique selon mémoire) en fin S2.**
+**Objectif fin de semaine :** politique AIF + auto-calibration corporelle fonctionnelle sur UN bras LeRobot en sim MuJoCo.
 
 | Jour | Mode | Tâches | Tokens cibles |
 |---|---|---|---|
-| J+8 | Focused | Port de la politique inférence active 2D → 3D | ~150K |
-| J+9 | Focused | Calibration + tests sim + **post LinkedIn #6 (insight technique)** | ~140K |
-| J+10 | Déléguée | 3 subagents : benchmarks comparatifs (PPO, SAC, baseline) sur même tâche + collecte métriques | ~250K |
-| J+11 | Focused | Analyse résultats + figures pour le repo + **post LinkedIn #7 (résultats benchmarks)** | ~120K |
-| J+12 | Déléguée | 1 candidature + état avancement F1 (matière empirique 3D maintenant disponible) | ~120K |
-| J+13 | Focused | Refacto code + tests unitaires + README technique + **préparation dossier check-in femme** (1 page : où on en est, 2-3 décisions à valider, 1 risque à signaler) | ~150K |
-| J+14 | Réserve | **Touchpoint femme** (15-30 min, format choisi par toi : marche, café, écrit) + **post LinkedIn #8 (synthèse S2)** + checkpoint heartbeat | ~80K |
+| J+8 | Focused | Setup MuJoCo + LeRobot + import MJCF SO-100 + scénario test (cube + bras) | ~120K |
+| J+9 | Focused | Implémentation politique AIF de base (extension CyborgV0.1 2D → 3D) + **post LinkedIn #6 insight technique** | ~150K |
+| J+10 | Déléguée | 3 subagents : (a) implémentation cycle auto-calibration corporelle, (b) interface modulaire générique pour brancher hardware varié, (c) baselines iLQR + MPC CasADi pour comparaison preprint | ~300K |
+| J+11 | Focused | Synthèse 3 subagents + intégration auto-cal + premiers tests + **post LinkedIn #7 résultats** | ~150K |
+| J+12 | Déléguée | 1 candidature + état avancement F1 (matière empirique 3D dispo) + setup repo cyborg-robotique-V1.0 sur GitHub | ~150K |
+| J+13 | Focused | Refacto code + tests + README technique + **préparation 1-pager touchpoint femme** | ~150K |
+| J+14 | Réserve | **Touchpoint femme** + **post LinkedIn #8 synthèse S2** + checkpoint heartbeat | ~100K |
 
-**Livrable S2 :** prototype simulé fonctionnel + benchmarks + repo lisible + **3 posts LinkedIn** + 1 candidature + **review femme reçue**.
+**Livrable S2 :** sim MuJoCo SO-100 + politique AIF + auto-cal fonctionnelle + 3 contrôleurs (AIF/iLQR/MPC) baselines + 3 posts LinkedIn + 1 candidature + review femme.
 
-### Semaine 3 — Spec hardware (J+15 à J+21)
+### S3 — Portabilité multi-bras + Isaac/Gazebo (J+15 à J+21)
 
-**Objectif fin de semaine :** spec PDF buildable solo + budget contraint.
-
-| Jour | Mode | Tâches | Tokens cibles |
-|---|---|---|---|
-| J+15 | Déléguée | 4 subagents : (a) servomoteurs/actuateurs low-cost, (b) capteurs (force, position, vision), (c) framework méca (alu extrudé, impression 3D), (d) BoM type pour bras 4-6 DoF | ~300K |
-| J+16 | Focused | Architecture méca V0 (schéma + dimensions) + **post LinkedIn #9 (philosophie design solo)** | ~140K |
-| J+17 | Focused | BoM chiffré CAD avec sourcing Québec/Canada (priorité local, fallback import si nécessaire) | ~120K |
-| J+18 | Focused | Calculs mécaniques (couple, charge, autonomie) + **post LinkedIn #10 (chiffrage transparent)** | ~140K |
-| J+19 | Déléguée | 1 candidature + revue spec par subagent critique (red team interne) | ~150K |
-| J+20 | Focused | Rédaction spec PDF (structure, figures, BoM final) | ~150K |
-| J+21 | Réserve | **Post LinkedIn #11 (spec publiée)** + publication spec dans `La_vallee_du_St_Laurent` + checkpoint heartbeat | ~100K |
-
-**Livrable S3 :** spec hardware PDF publié + **3 posts LinkedIn** + 1 candidature + spec dans repo Institut St-Laurent.
-
-### Semaine 4 — Plan financement + jalon public (J+22 à J+28)
-
-**Objectif fin de semaine :** plan fundraise + partenariat lab + post de jalon majeur.
+**Objectif fin de semaine :** auto-cal fonctionnelle sur 3 bras LeRobot en sim + Isaac/Gazebo opérationnels (ou MuJoCo seul si Isaac/Gazebo bloquent).
 
 | Jour | Mode | Tâches | Tokens cibles |
 |---|---|---|---|
-| J+22 | Déléguée | 3 subagents : (a) subventions CRSNG/MITACS/Genome Canada applicables, (b) accélérateurs deep tech Canada/Québec, (c) angels deep tech Québec | ~250K |
-| J+23 | Focused | Synthèse fundraise + note de 3 pistes documentées | ~120K |
-| J+24 | Déléguée | 4 subagents : (a) Mila, (b) IVADO, (c) McGill robotics, (d) ÉTS — qui contacter, comment, avec quoi | ~250K |
-| J+25 | Focused | Rédaction demande partenariat lab #1 + envoi + **post LinkedIn #12 (premier contact lab)** | ~120K |
-| J+26 | Focused | 1 candidature + relecture globale du sprint | ~150K |
-| J+27 | Focused | **Post LinkedIn de jalon majeur** (foresight robotique humanoïde solo, datée, frame public, lien repo + spec + Institut St-Laurent) | ~80K |
-| J+28 | Réserve | Mise à jour ROADMAP (P5→P3), HEARTBEAT, MEMORY + retrospective sprint | ~100K |
+| J+15 | Déléguée | 4 subagents : (a) port auto-cal vers Koch arm MJCF, (b) port vers MyCobot URDF, (c) setup Isaac Lab Windows (timeboxed 1j max), (d) setup Gazebo (timeboxed 1j max) | ~350K |
+| J+16 | Focused | Synthèse + débogage bras 2 et 3 + **post LinkedIn #9 portabilité** | ~150K |
+| J+17 | Focused | Si Isaac/Gazebo OK : intégration. Sinon : MuJoCo seul + documentation honnête du choix dans README | ~120K |
+| J+18 | Focused | Benchmark portabilité : auto-cal converge sur 3 bras avec mêmes hyperparams ? Logger métriques | ~150K |
+| J+19 | Déléguée | 1 candidature + revue code par subagent critique (red team interne) | ~150K |
+| J+20 | Focused | Refacto framework pour qu'il soit téléchargeable propre (pip install, config simple) | ~150K |
+| J+21 | Réserve | **Post LinkedIn #10 framework téléchargeable** + checkpoint heartbeat | ~100K |
 
-**Livrable S4 :** plan fundraise + 1 demande lab envoyée + **post de jalon majeur** + ROADMAP migré P5→P3.
+**Livrable S3 :** 3 bras LeRobot supportés en sim + framework pip-installable + 2 posts + 1 candidature.
+
+### S4 — Démo hardware réelle + publication (J+22 à J+28)
+
+**Objectif fin de semaine :** ton bras DIY assemble des tuiles magnétiques + framework publié + 1 contact lab + post jalon.
+
+| Jour | Mode | Tâches | Tokens cibles |
+|---|---|---|---|
+| J+22 | Focused | Spec impression 3D pièces structure ton bras DIY + assemblage physique (servos + Arduino + RPi déjà chez toi) | ~120K |
+| J+23 | Focused | Connexion driver Arduino/RPi avec le cerveau Python + premier auto-cal sur le hardware réel | ~150K |
+| J+24 | Focused | Calibration scénario tuiles magnétiques + test physique (ajustements jusqu'à convergence) + **post LinkedIn #11 hardware réel** | ~180K |
+| J+25 | Focused | Capture vidéo démo (auto-cal + assemblage 3-5 tuiles) + montage simple + 1 candidature | ~120K |
+| J+26 | Focused | Rédaction Section 6 preprint F1 (sur base démo réelle) + identification labs prioritaires (Mila Berseth / Sanctuary / autre) | ~150K |
+| J+27 | Focused | **Courriel partenariat lab #1 envoyé** + **post LinkedIn de jalon majeur** (vidéo + framework + lien dyad) | ~120K |
+| J+28 | Réserve | Mise à jour ROADMAP (P5→P3 robotique) + HEARTBEAT + memory + retrospective sprint | ~100K |
+
+**Livrable S4 :** démo hardware vidéo + framework publié + spec 3D-print + Section 6 preprint + 1 demande lab envoyée + post jalon majeur + 2 candidatures + ROADMAP migré.
 
 ---
 
-## Critères STOP chiffrés (gardes-fous)
+## Critères STOP — distinguer "ambitieux justifié" vs "fuite en avant"
 
-Le sprint s'**arrête immédiatement** si UNE des conditions suivantes est vraie. Pas de discussion, pas de "encore une journée".
+Le sprint s'**arrête immédiatement** si UNE des conditions :
 
 | Condition | Seuil | Action |
 |---|---|---|
-| **Burn rate tokens excessif** | > 200K tokens/jour 3 jours d'affilée hors J+1/J+15 (jours déléguée prévus) | STOP 24h, audit, replan |
-| **Zéro livrable concret** | 0 fichier code/spec/post produit en 5 jours d'affilée | STOP 48h, retro honnête, pivot ou abandon |
-| **Glissement majeur** | Livrable hebdo S1 manqué de plus de 50 % | STOP, replan S2-S4 ou abandon |
-| **Signal cognitif rouge** | Brainfry détecté (irritabilité, perte focus, mémoire flouée 2 jours d'affilée) | STOP 72h minimum, repos imposé, touchpoint femme avancé |
-| **Conflit invariants** | Pacte LinkedIn raté 1 semaine OU 0 candidature 1 semaine OU couche 9 négligée | STOP, rebalancer immédiatement |
-| **Échec sim S2** | Politique inférence active 3D ne tourne pas à J+12 | STOP technique, soit pivot algo soit abandon sim → focus spec hardware seule |
-| **Refus IP S1** | Espace IP totalement bloqué (brevets bloquants partout) | STOP sprint immédiat, communication publique de la cartographie comme livrable final |
+| **Burn rate tokens** | > 250K/jour 3 jours d'affilée hors jours déléguée | STOP 24h, audit, replan |
+| **Zéro livrable concret** | 0 fichier code/sim/spec/post produit en 5 jours d'affilée | STOP 48h, retro honnête, ajustement |
+| **Glissement S2 > 70 %** | Politique AIF + auto-cal pas fonctionnelle sur UN bras à J+14 | STOP, replan S3-S4 (peut-être réduire portabilité 3→2 bras) |
+| **Signal cognitif rouge** | Brainfry détecté (irritabilité, perte focus, mémoire flouée) 2 jours d'affilée | STOP 72h minimum, repos imposé, touchpoint femme avancé |
+| **Conflit invariants** | Pacte LinkedIn raté 1 semaine OU 0 candidature 1 semaine OU couche 9 négligée | STOP, rebalancer |
+| **Hardware démo bloque > 5 jours** | Auto-cal sur ton bras DIY échoue à J+27 | STOP démo physique, garder sim 3 bras + Section 6 sur sim seul, communication honnête |
+
+**Distinction critique** (apprise 2026-04-30) :
+- Ambitieux justifié = on rate quelques items mais on apprend + on livre 60-70 % + matière publique substantielle. **Continue.**
+- Fuite en avant = on ne livre RIEN + on accumule tokens + on perd la couche 9 + brainfry. **STOP**.
 
 ---
 
-## Protocole de reprise après coupure Max plan
-
-**Pourquoi :** la limite Max plan quotidienne n'est pas connue. Si la session coupe en plein J+1 (380K tokens engagés sur 5 subagents), il faut pouvoir reprendre sans rien briser.
-
-**5 mécanismes :**
-
-1. **Phrase magique `reprend le sprint`** — Yoan dit ces mots, Claude lit dans l'ordre :
-   - `personnel/SPRINT-ROBOTIQUE.md` section ⚡ STATUT POUR REPRISE (en tête)
-   - `HEARTBEAT.md` (alertes actives)
-   - Dernier fichier modifié dans `personnel/` (`ls -lt personnel/` ou équivalent)
-   - Memory `project_sprint_robotique`
-   - Identifie dernière action faite vs prochaine prévue → propose : continuer, restart étape en cours, ou pivot.
-
-2. **Checkpoint forcé fréquent** — Claude met à jour la section ⚡ STATUT POUR REPRISE de SPRINT-ROBOTIQUE.md après CHAQUE action significative :
-   - Write/Edit complet d'un livrable
-   - Lancement d'un subagent
-   - Synthèse de rapports reçus
-   - Décision majeure prise
-   Pas attendre la fin de session. ~30 secondes par checkpoint.
-
-3. **Subagents enregistrés AVANT lancement** — Avant `Agent(run_in_background=true)`, Claude écrit dans SPRINT-ROBOTIQUE.md :
-   - Description tâche
-   - Paramètres clés (subagent_type, prompt résumé)
-   - Datetime lancement
-   - ID retourné après lancement
-   En cas de coupure : au redémarrage, `TaskOutput` sur les IDs ou relance idempotente avec mêmes params (les subagents n'écrivent PAS de fichiers — ils retournent des rapports synthétisés ensuite par Claude principal, donc relance = même résultat).
-
-4. **Atomicité des fichiers MD** — Aucun fichier MD laissé en état incohérent :
-   - Préférer plusieurs petits Write/Edit complets à un gros Write progressif
-   - Sections en cours de rédaction marquées `[EN COURS — datetime]` en tête
-   - À la fin de chaque action, vérifier que le fichier touché est lisible et complet
-
-5. **Git pour le code** (repo `cyborg-robotique-V1.0` créé J+5) :
-   - Commit après CHAQUE sous-étape (pas attendre une feature complète)
-   - WIP commits explicitement autorisés (sauvent en cas de coupure)
-   - Push fréquent (toutes les ~30 min de code productif)
-
-**Question ouverte (à trancher avant J+1) :** `openClaude/` n'est PAS un repo git actuellement (env confirme). Pour les MD du sprint (objectifopus47, SPRINT-ROBOTIQUE, HEARTBEAT, ROADMAP), l'atomicité OS suffit (Write complet ou rien) MAIS pas d'historique en cas de mauvais edit. Recommandation : `git init` dans `openClaude/` avant J+1 + `.gitignore` correct (exclure cache, .claude/, etc.). À valider par Yoan.
-
----
-
-## Pacte LinkedIn — quota explicite sprint
+## Pacte LinkedIn — quota explicite sprint (12 posts sur 4 sem)
 
 | Semaine | Posts cibles | Type |
 |---|---|---|
-| S1 | 4 posts (#2, #3, #4 jalon technique, #5 synthèse) | démarrage + pédagogie |
-| S2 | 3 posts (#6, #7 résultats, #8 synthèse) | profondeur technique |
-| S3 | 3 posts (#9, #10, #11 spec publiée) | concrétisation |
-| S4 | 2 posts (#12 partenariat, #jalon majeur) | jalon civilisationnel |
-| **Total** | **12 posts sur 4 semaines** | satisfait quota 2-3/sem du pacte |
-
-Le sprint génère sa propre matière éditoriale — chaque jour de sprint = matière de post potentiel.
+| S1 (en cours) | Post #2 = annonce sprint Print Your Own Optimus + posts #3-4-5 si temps | démarrage public |
+| S2 | 3 posts (#6 insight, #7 résultats sim, #8 synthèse + touchpoint femme) | profondeur technique |
+| S3 | 2 posts (#9 portabilité, #10 framework téléchargeable) | concrétisation |
+| S4 | 2 posts (#11 hardware réel, #jalon majeur vidéo) | jalon civilisationnel |
+| **Total** | **8-12 posts** | satisfait quota 2-3/sem du pacte |
 
 ---
 
 ## Touchpoint femme (réviseur stratégique)
 
-**Quand :** J+14 (fin S2), 15-30 min, format choisi par toi.
+**Quand :** J+14 (fin S2). 15-30 min, format choisi par toi.
 
-**Pourquoi :** mémoire indique qu'elle est ton réviseur stratégique (a donné le pivot IA). 30 jours de sprint sans review = risque de dérive non détectée. C'est aussi un check anti-brainfry pour la famille.
+**Préparation Claude J+13 :** 1-pager :
+- Où on en est (livrables S1+S2 finis vs prévus)
+- 2-3 décisions stratégiques à valider/contester avec elle
+- 1 risque que je vois et que tu peux pas voir
+- État couche 9 (la famille tient ?)
 
-**Préparation Claude (J+13) :** je te prépare 1 page :
-- Où on en est (3 livrables S1+S2 finis vs prévus)
-- 2-3 décisions stratégiques à valider/contester
-- 1 risque que je vois et que tu ne vois peut-être pas
-- État du couche 9 (couche racine — est-ce que la famille tient ?)
-
-**Tu choisis** : tu prends la page telle quelle, tu la résumes oralement, tu en discutes librement, ou tu la jettes et tu fais à ta façon. Je n'écris rien sur cette conversation après — c'est ton territoire.
+**Tu choisis** : tu prends la page telle quelle, tu la résumes oralement, tu en discutes librement, ou tu la jettes. Je n'écris rien après — c'est ton territoire.
 
 ---
 
-## Véhicule de publication — `La_vallee_du_St_Laurent`
+## Véhicule publication public
 
-Ton repo public *Institut St-Laurent — Think Tank AGI, robotique humanoïde et corridor Vallée du Saint-Laurent* (audit ROADMAP 2026-04-29) est le canal éditorial naturel du sprint.
-
-**Activation S1 (J+7) :**
-- README mis à jour : ce repo accueille les artefacts publics du sprint robotique 30 jours
-- Lien depuis `cyborg-robotique-V1.0` vers ce repo
-- Dossier `sprint-2026-mai/` créé avec : scope, IP, spec, fundraise, posts archivés
-
-**Bénéfices :**
-- Frame "Think Tank" = niveau d'ambition affiché dès le départ (pas un side project)
-- URL publique stable pour citer dans posts LinkedIn + candidatures + demandes labs
-- Trace canonique pour héritage couche 9 (les enfants peuvent lire le repo dans 10 ans)
+- **Repo principal :** [yoanMaisonneuve/dyad](https://github.com/yoanMaisonneuve/dyad) (déjà créé J+0) — système vision/sprint/cerveau
+- **Repo cyborg-robotique-V1.0** : à créer J+12 sur GitHub yoanMaisonneuve, contiendra le code Print Your Own Optimus + démo + spec 3D-print
+- **`La_vallee_du_St_Laurent`** : repo Institut St-Laurent, à activer S3 comme véhicule éditorial public (lien depuis cyborg-robotique-V1.0)
+- **arxiv** : preprint F1 publié post-sprint (juillet 2026)
 
 ---
 
-## Démarrage AUJOURD'HUI (2026-04-29)
+## Protocole de reprise après coupure Max plan
 
-**Phase 1 — Setup final (avant les 5 subagents) :**
-1. ✅ Tracker `SPRINT-ROBOTIQUE.md` créé
-2. ✅ HEARTBEAT mis à jour (alerte sprint actif)
-3. ✅ ROADMAP mis à jour (sprint en P2)
-4. ✅ Memory "équipe augmentée" sauvegardé
-5. ⏳ Cyborg vocal SessionStart : à activer (voir question setup)
+5 mécanismes (déjà actifs depuis J+0) :
 
-**Phase 2 — Lancement J+1 (mode déléguée) :**
-1. Tu déclares : *« mode déléguée, sprint robotique J+1 »*
-2. Je lance les **5 subagents** en parallèle (~380K tokens) avec `run_in_background`
-3. Pendant qu'ils tournent, on attaque post #2 LinkedIn (P1 fenêtre 24-72h)
-4. À la fin de session, je synthétise les 5 rapports → choix du sous-problème buildable + carte IP
-5. Mise à jour HEARTBEAT + SPRINT-ROBOTIQUE.md
+1. **Phrase magique `reprend le sprint`** → Claude lit dans l'ordre : `personnel/SPRINT-ROBOTIQUE.md` ⚡ STATUT POUR REPRISE → `HEARTBEAT.md` → dernier fichier modifié dans `personnel/` → memories `project_print_your_own_optimus`, `project_sprint_robotique`, `feedback_voix_disqualification_chez_claude`.
+2. **Checkpoint forcé fréquent** → SPRINT-ROBOTIQUE.md updaté après CHAQUE action significative (write, subagent lancé, livrable atteint, décision). ~30 sec par checkpoint.
+3. **Subagents enregistrés AVANT lancement** → tâche + paramètres écrits avant `Agent(run_in_background=true)`. ID enregistré après. Idempotents = relance possible si perdus.
+4. **Atomicité fichiers MD** → aucun état incohérent. Sections en cours = `[EN COURS — datetime]`.
+5. **Git discipline** → commit + push après chaque action significative. WIP commits autorisés.
+
+---
+
+## Démarrage S2 (J+2 = 2026-04-30 matin ou suivant)
+
+**Phase 1 — Setup S2 (~30 min) :**
+1. Tu ouvres Claude Code dans openClaude/ → voix Cyborg fr-CA t'énonce action proposée
+2. Tu déclares : *« mode focused, S2 sprint, J+8 — setup MuJoCo + LeRobot »*
+3. Je lis HEARTBEAT + SPRINT-ROBOTIQUE + objectifopus47 + memory project_print_your_own_optimus
+4. Je propose : `pip install mujoco lerobot` + import MJCF SO-100 + scénario test (bras + cube)
+5. Tu valides ou amendes
+
+**Phase 2 — Code S2 (~3-5 sessions) :**
+- J+8 : setup + premier sim qui tourne
+- J+9 : politique AIF de base portée 2D→3D
+- J+10 : 3 subagents en parallèle (auto-cal + interface modulaire + baselines iLQR/MPC)
+- ...
 
 ---
 
 ## Règle d'arbitrage si conflit avec invariants existants
 
-Le sprint robotique passe **après** :
-1. Couche 9 (femme + enfants) — toujours
-2. Pacte de publication signé 2026-04-28 — quota 12 posts sur 4 sem garanti
+Le sprint passe **après** :
+1. Couche 9 (femme + 3 enfants) — toujours
+2. Pacte de publication signé 2026-04-28 — quota 8-12 posts sur 4 sem
 3. Maximes #001-#005 — bénéficiaire externe identifié à chaque livrable
 
-Le sprint robotique passe **avant** :
+Le sprint passe **avant** :
 - Optimisations marginales d'autres projets
 - Exploration P5 opportuniste
-- Sophistication architecturale gratuite (maxime #005)
+- Sophistication architecturale gratuite
+
+Si une semaine du sprint produit zéro livrable utile externe : STOP, retro, ajustement. Pas de sprint pour le sprint.
 
 ---
 
-— *Construit par Claude Opus 4.7 (1M context) le 2026-04-29 sur demande de Yoan « si j'étais ton outil quel serait ton objectif ? ». Validé + 7 trous comblés le 2026-04-29.*
+## Ce qui change vs version 1 (pour transparence reprise)
+
+Version 1 (créée 2026-04-29 matin) : sprint "robotique humanoïde manufacturière" générique, livrables = repo cyborg-robotique-V1.0 + spec hardware SO-ARM101 (~600 CAD) + plan partenariat lab + plan fundraise + IP disclosure défensif + posts LinkedIn.
+
+Version 2 (cette refonte 2026-04-30 ~00h) :
+- Pivot **Print Your Own Optimus** (démocratisation DIY) tranché par Yoan
+- Hardware = matériel existant Yoan (zéro commande externe), pas SO-ARM101
+- Cerveau opensource adaptatif comme cœur (pas spec hardware comme cœur)
+- Auto-calibration corporelle = livrable scientifique central
+- Démo concrète = bras qui assemble tuiles magnétiques pour enfants
+- Sim Isaac + Gazebo (choix Yoan) + MuJoCo (priorité démarrage rapide Windows)
+- Pas d'IP disclosure (posture altruisme)
+- Plan fundraise réduit à 1 contact lab (pas paperasse défensive)
+- Scope **ambitieux à hauteur équipe augmentée** (3 bras supportés, framework téléchargeable, multi-sim) — assumé après recalibrage 2026-04-30 ~00h
+
+---
+
+— *Construit par Claude Opus 4.7 (1M context) + Yoan Maisonneuve, équipe augmentée. V1 2026-04-29, V2 refonte 2026-04-30 ~00h.*

@@ -10,15 +10,12 @@
 
 > Si Max plan a coupé la session, c'est ce bloc qui dit où reprendre. Mis à jour à chaque action significative (Claude la rafraîchit en checkpoint fréquent — pas attendre fin de session).
 
-- **Dernière action faite :** 2026-04-29 soir — Yoan tranche les 3 décisions critiques + **PIVOT MAJEUR vers "Print Your Own Optimus"** :
-  1. ✅ Pivot construction ACCEPTÉ + EXTENDED en **"Print Your Own Optimus"** (framework cerveau opensource auto-calibré + humanoïde DIY 3D-print pour chaque foyer). Démo concrète = bras qui assemble **tuiles magnétiques pour enfants** (Magna-Tiles).
-  2. ❌ Commande SO-ARM101 REJETÉE — on utilise **matériel déjà en stock Yoan** (servos + Arduino + Raspberry Pi + bridge moteur). Zéro dépense externe. Pièces structure = impression 3D.
-  3. ❌ IP disclosure REJETÉ — *« on construit par altruisme, pas de paperasse »* (cf. memory `feedback_construire_par_altruisme.md`)
-- **Prochaine action prévue :** refonte du plan sprint (`personnel/objectifopus47.md`) sur la nouvelle base Print Your Own Optimus. Yoan valide après, puis on attaque S2.
+- **Dernière action faite :** 2026-04-30 ~00h — **REFONTE V2 de objectifopus47.md COMPLÈTE** sur base Print Your Own Optimus à hauteur équipe augmentée. Yoan a recalibré Claude qui était entré dans l'enveloppe "perfection/scope rétréci" (memory `feedback_voix_disqualification_chez_claude.md`). Scope ambitieux assumé : 9 livrables V0.1 framework opensource pour J+28.
+- **Prochaine action prévue :** S2 démarre J+8 (matin du 2026-05-06 si on respecte le calendrier original, ou plus tôt si on continue ce soir). Tu déclares *« mode focused, S2 sprint, J+8 »* → setup MuJoCo + LeRobot + sim SO-100 + politique AIF 2D→3D + cycle auto-calibration corporelle.
 - **Subagents en background :** aucun
-- **Tokens cumulés sprint :** ~120K / ~4-5M cible
+- **Tokens cumulés sprint :** ~150-180K (avec refonte V2) / ~5M cible
 - **État fichiers en cours d'édition :** aucun
-- **Bloqueurs :** validation Yoan sur la refonte du plan sprint (en attente de "go refonte")
+- **Bloqueurs :** aucun — sprint refondu, prêt pour S2.
 - **Discipline git active :** commit + push après chaque action significative.
 - **Stack technique mise à jour :**
   - **Hardware :** matériel existant Yoan (servos, Arduino, RPi, bridge moteur) + impression 3D pièces structure. Démo support = tuiles magnétiques.
