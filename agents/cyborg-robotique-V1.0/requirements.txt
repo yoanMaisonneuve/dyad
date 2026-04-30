@@ -1,0 +1,5 @@
+# Print Your Own Optimus — V0.1 dependencies
+# Minimal pour démarrer S2
+
+mujoco>=3.0.0
+numpy>=1.24.0
