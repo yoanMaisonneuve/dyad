@@ -9,28 +9,34 @@
 
 ---
 
-## Résumé exécutif (version révisée N=10)
+## Résumé exécutif (version V3 — V6 résout le bootstrap problem)
 
-En 1 séance marathon humain-IA, 3 intuitions mathématiques distinctes apportées par Yoan ont successivement été testées sur le cerveau robotique. Résultats statistiquement validés (N=10 seeds différents, 15 cibles × 8 steps par seed) :
+En 1 séance marathon humain-IA, **4 intuitions mathématiques** distinctes apportées par Yoan ont été testées sur le cerveau robotique. Après diagnostic statistique et résolution du bootstrap problem, **résultats publishable N=10 seeds** :
 
 | # | Intuition | Algorithme | Erreur SO-100 (mean ± std N=10) | Status |
 |---|---|---|---|---|
 | 0 | (point de départ) | Baseline + IK oracle MuJoCo | 0.222 m (déterministe) | — |
-| 1 | **Champ directionnel matchllm** | V1 ordre 1 | 0.144 m (1 seed reporté, n=1) | ⚠️ N=1 reproductibilité non testée |
-| 2 | **Ordre 2 (Hessien diagonal)** | V2 ordre 2 sur Koch | qualitatif : -166% → +40% (résout instabilité) | ✅ qualitatif clair |
-| 3 | **Sensibilité fine + cross-terms implicites** | V4 ADAPTIVE | **0.159 ± 0.121 m** (last 5 mean) | ⚠️ Haute variance, gain non significatif vs baseline |
+| 1 | **Champ directionnel matchllm** | V1 ordre 1 | 0.144 m (n=1) | ⚠️ N=1 à reconfirmer |
+| 2 | **Ordre 2 (Hessien diagonal)** | V2 ordre 2 sur Koch | qualitatif : -166% → +40% | ✅ qualitatif clair |
+| 3 | **Sensibilité fine + cross-terms implicites** | V4 ADAPTIVE | 0.159 ± 0.121 m | ⚠️ Bootstrap problem identifié |
+| 4 | **Bootstrap diagnostic + warmup canonique + DLS** | **V6 ADAPTIVE** | **0.067 ± 0.023 m** | ✅ **3.3× baseline, publishable** |
 
-**Convergence cibles individuelles V4 (best-case observé) : 4-7 mm. Cas catastrophiques observés : 380-570 mm.** Distribution très skewed.
+**V6 vs baseline + IK oracle (0.222 m) :**
+- SO-100 : **3.3× mieux** statistiquement (mean+2σ = 0.113 < baseline)
+- Koch : **2.7× mieux** (0.082 ± 0.031 m, n=10)
+- Plus aucun outlier catastrophique sur 20 runs (10 seeds × 2 bras)
+- std << mean → distribution stable, comportement reproductible
 
 **Ce qui est solidement validé :**
-- ✅ Champ directionnel matchllm bat largement MLP appris (0.144 vs 0.401 m, gain qualitatif robuste)
-- ✅ Ordre 2 (Hessien diagonal) résout qualitativement l'instabilité du Koch (configurations non-linéaires)
-- ⚠️ V4 ADAPTIVE améliore en médiane mais variance trop élevée pour claim "4× mieux"
+- ✅ Champ directionnel matchllm bat largement MLP appris
+- ✅ Ordre 2 (Hessien diagonal) résout qualitativement l'instabilité du Koch
+- ✅ **Identification online de J(θ) avec warmup canonique + DLS** atteint 0.067 ± 0.023 m sur SO-100, statistiquement significatif vs baseline avec oracle MuJoCo
+- ✅ Embodiment-agnostic : même algorithme V6 sur 2 bras de géométries différentes
 
-**Ce qui reste à investiguer :**
-- Pourquoi certains seeds (47, 50, 46) donnent erreur > 0.30 m sur SO-100 ?
-- Cibles dégénérées proches singularités cinématiques ?
-- Hyperparams (step_size, noise_scale) trop sensibles à l'init ?
+**Ce qui reste pour publication complète :**
+- Re-confirmer V1, V2, V3 en N=10 (jamais validés statistiquement)
+- Investiguer hyperparam sensitivity de V6 (step_size, noise_scale)
+- Sim-to-real (S4 hardware avec bras DIY)
 
 ---
 
@@ -306,6 +312,57 @@ Test d'intention d'ordre 2 (suivi trajectoire continue) : 0.119 m global SO-100,
 **Reformulation alternative pour LinkedIn (matière pédagogique sans surclaim) :**
 
 > *« On a testé 5 architectures de cerveau robotique apprenant la cinématique d'un bras par interaction. Le champ directionnel matchllm + identification adaptive de la jacobienne en temps réel atteint 4-7 mm de précision SUR CERTAINES cibles, mais la variance inter-run reste élevée (std > mean). Ce qui marche : capter implicitement les cross-terms via J(θ) variable. Ce qui reste à résoudre : robustesse aux cibles dégénérées et aux configurations singulières. Travail public sur dyad. »*
+
+---
+
+## Victoire 4 — Bootstrap problem résolu (V6 ADAPTIVE)
+
+### Diagnostic
+
+Faille statistique V4 identifiée → eval N=10 seeds montre std (0.121) > mean (0.159) avec outliers catastrophiques (worst seed 0.361 m). Diagnostic comparatif seed 43 (best 0.012m) vs seed 47 (worst 0.361m) via [`eval_diagnosis.py`](../agents/cyborg-robotique-V1.0/eval_diagnosis.py) révèle :
+
+| Métrique | seed 43 (best) | seed 47 (worst) |
+|---|---|---|
+| ‖J‖_min moyen | 0.280 | **0.044** (6× plus petit) |
+| Cibles ‖J‖_min < 0.1 (J dégénère) | **1/15** | **14/15** ⚠️ |
+| ‖tgt‖ moyen | 0.291 m | 0.310 m (similaire) |
+
+**Cause identifiée : bootstrap problem.** Les 12 premières actions aléatoires de l'initialisation du buffer mettent (parfois) le bras dans une région proche de singularités cinématiques où ‖J‖ dégénère. Une fois coincé, l'agent ne peut plus sortir car ses corrections (basées sur J quasi-nul) sont nulles.
+
+### Solution V6 (combinaison de 2 mécanismes)
+
+`cerveau/agent_adaptive_v6.py` (~80 lignes, hérite V4) :
+
+**Mécanisme 1 — Warmup canonique** : avant de commencer les cibles, faire 5 mouvements canoniques (1 par DoF, sign aléatoire, amplitude 0.15 rad). Cela remplit le buffer avec des observations diversifiées garantissant un J initial informatif.
+
+**Mécanisme 2 — DLS regularization** : `Δθ = J^T (JJ^T + λ²·I)^(-1) · e` avec λ=0.05, au lieu du pseudo-inverse pur. Protège mathématiquement quand J dégénère temporairement (sortie d'une singularité possible).
+
+### Résultats N=10 seeds
+
+```
+V4 -> V6 amélioration (eval_v6_stats.py) :
+
+SO-100 :
+  V4 : 0.1593 ± 0.1205 m  (best 0.012, worst 0.361)
+  V6 : 0.0672 ± 0.0234 m  (best 0.031, worst 0.102)
+  Mean : -58%   Std : -81%   Worst : -72%
+
+Koch :
+  V4 : 0.1437 ± 0.0512 m  (best 0.051, worst 0.240)
+  V6 : 0.0823 ± 0.0314 m  (best 0.032, worst 0.121)
+  Mean : -43%   Std : -39%   Worst : -50%
+```
+
+### Lecture
+
+1. **Bootstrap problem confirmé** comme cause de la haute variance V4 — sa résolution diminue std de 81% sur SO-100
+2. **Aucun outlier catastrophique** sur 20 runs (10 seeds × 2 bras) — distribution stable
+3. **std << mean** → comportement reproductible, publishable
+4. **Significativement meilleur que baseline IK oracle** (mean + 2σ < 0.222 m sur SO-100)
+
+### Citation préparée pour preprint F1 (version V6, honnête et significative)
+
+> *« Online adaptive identification of the Jacobian J(θ) with rolling buffer (K=12), persistence-of-excitation noise (σ=0.02), canonical warmup (n_dof essais), and damped least squares regularization (λ=0.05) achieves 0.067 ± 0.023 m mean final error on SO-ARM100 reaching task across 10 random seeds, and 0.082 ± 0.031 m on Alexander Koch low-cost arm. Both results are 2.7-3.3× better than the IK-oracle baseline (0.222 m, deterministic) at statistical significance (mean + 2σ < baseline). The combination of canonical warmup and DLS resolves the bootstrap problem identified during a preliminary version (V4) where 6× variance in initial Jacobian conditioning produced catastrophic outliers (worst-case 0.361 m, exceeding baseline). The approach is embodiment-agnostic across two different 5-DoF arm geometries. »*
 
 ---
 
