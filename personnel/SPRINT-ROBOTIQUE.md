@@ -10,12 +10,14 @@
 
 > Si Max plan a coupé la session, c'est ce bloc qui dit où reprendre. Mis à jour à chaque action significative (Claude la rafraîchit en checkpoint fréquent — pas attendre fin de session).
 
-- **Dernière action faite :** 2026-04-30 ~00h — **REFONTE V2 de objectifopus47.md COMPLÈTE** sur base Print Your Own Optimus à hauteur équipe augmentée. Yoan a recalibré Claude qui était entré dans l'enveloppe "perfection/scope rétréci" (memory `feedback_voix_disqualification_chez_claude.md`). Scope ambitieux assumé : 9 livrables V0.1 framework opensource pour J+28.
-- **Prochaine action prévue :** S2 démarre J+8 (matin du 2026-05-06 si on respecte le calendrier original, ou plus tôt si on continue ce soir). Tu déclares *« mode focused, S2 sprint, J+8 »* → setup MuJoCo + LeRobot + sim SO-100 + politique AIF 2D→3D + cycle auto-calibration corporelle.
+- **Dernière action faite :** 2026-04-30 ~02h — **EVAL-001 produite et sauvegardée** dans `EVAL/EVAL-001-2026-04-30.md`. Récap factuel J+1 : 9 commits dyad, 53 fichiers tracked, 428 lignes Python utiles dans cyborg-robotique-V1.0/, baseline AIF 3D fonctionnel (53.6% réduction erreur sur 30 cycles SO-ARM100), 6 memories nouvelles, ~320K tokens consommés. Sprint en avance calendaire (S2 démarré dès J+1).
+- **Livrables S2 J+8 atteints :** setup MuJoCo + bras 2 DoF jouet + bras SO-ARM100 6 DoF + structure cerveau modulaire (model_lineaire + ik_oracle + agent) + baseline AIF lineaire 3D qui converge.
+- **Prochaine action prévue :** option défaut = repos cognitif (2e session 6h+ depuis 2026-04-28). Demain matin frais : S2 J+9 = vraie politique AIF avec EFE direct (sans IK oracle) + auto-calibration corporelle + fix segfault cosmétique viewer.
 - **Subagents en background :** aucun
-- **Tokens cumulés sprint :** ~150-180K (avec refonte V2) / ~5M cible
+- **Tokens cumulés sprint :** ~320K / ~5M cible (~6% du budget sprint utilisé)
 - **État fichiers en cours d'édition :** aucun
-- **Bloqueurs :** aucun — sprint refondu, prêt pour S2.
+- **Bloqueurs :** aucun
+- **Bug connu non bloquant :** segfault MuJoCo viewer Windows à la fermeture (`03_aif_baseline_3d.py` exit 139 après bilan). Fix prévu next session : try/finally + cleanup explicite, ~5 min.
 - **Discipline git active :** commit + push après chaque action significative.
 - **Stack technique mise à jour :**
   - **Hardware :** matériel existant Yoan (servos, Arduino, RPi, bridge moteur) + impression 3D pièces structure. Démo support = tuiles magnétiques.
