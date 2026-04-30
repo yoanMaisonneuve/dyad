@@ -9,34 +9,38 @@
 
 ---
 
-## Résumé exécutif (version V3 — V6 résout le bootstrap problem)
+## Résumé exécutif (V3 — corrections post-validation N=10)
 
-En 1 séance marathon humain-IA, **4 intuitions mathématiques** distinctes apportées par Yoan ont été testées sur le cerveau robotique. Après diagnostic statistique et résolution du bootstrap problem, **résultats publishable N=10 seeds** :
+En 1 séance marathon humain-IA, **4 intuitions mathématiques** distinctes apportées par Yoan ont été testées sur un cerveau robotique adaptatif open source. La validation statistique N=10 seeds a invalidé 2 claims antérieurs et **confirmé une seule victoire significative** :
 
-| # | Intuition | Algorithme | Erreur SO-100 (mean ± std N=10) | Status |
-|---|---|---|---|---|
-| 0 | (point de départ) | Baseline + IK oracle MuJoCo | 0.222 m (déterministe) | — |
-| 1 | **Champ directionnel matchllm** | V1 ordre 1 | 0.144 m (n=1) | ⚠️ N=1 à reconfirmer |
-| 2 | **Ordre 2 (Hessien diagonal)** | V2 ordre 2 sur Koch | qualitatif : -166% → +40% | ✅ qualitatif clair |
-| 3 | **Sensibilité fine + cross-terms implicites** | V4 ADAPTIVE | 0.159 ± 0.121 m | ⚠️ Bootstrap problem identifié |
-| 4 | **Bootstrap diagnostic + warmup canonique + DLS** | **V6 ADAPTIVE** | **0.067 ± 0.023 m** | ✅ **3.3× baseline, publishable** |
+| # | Algorithme | Erreur SO-100 (N=10) | Status statistique |
+|---|---|---|---|
+| 0 | Baseline + IK oracle MuJoCo | 0.222 m (déterministe) | référence |
+| 1 | V1 champ directionnel matchllm | **0.279 ± 0.041 m** | ❌ **NE BAT PAS baseline** (claim 0.144 invalidé par N=10) |
+| 2 | V2 ordre 2 (Hessien) | qualitatif uniquement (Koch) | ⚠️ N=1, à valider |
+| 3 | V4 ADAPTIVE (sans warmup) | 0.159 ± 0.121 m | ⚠️ mean meilleur, std > mean → non significatif |
+| 4 | **V6 ADAPTIVE (warmup + DLS)** | **0.067 ± 0.023 m** | ✅ **SEUL significatif vs baseline** (mean + 2σ = 0.113 < 0.222) |
 
-**V6 vs baseline + IK oracle (0.222 m) :**
-- SO-100 : **3.3× mieux** statistiquement (mean+2σ = 0.113 < baseline)
-- Koch : **2.7× mieux** (0.082 ± 0.031 m, n=10)
-- Plus aucun outlier catastrophique sur 20 runs (10 seeds × 2 bras)
+**V6 sur les 2 bras (N=10 seeds chacun) :**
+- SO-100 : **0.067 ± 0.023 m** → 3.3× meilleur que baseline, statistiquement significatif
+- Koch    : **0.082 ± 0.031 m** → 2.7× meilleur que baseline, statistiquement significatif
+- Aucun outlier catastrophique sur 20 runs (10 seeds × 2 bras)
 - std << mean → distribution stable, comportement reproductible
+- Même algorithme V6 sur 2 bras de géométries différentes (embodiment-agnostic)
 
-**Ce qui est solidement validé :**
-- ✅ Champ directionnel matchllm bat largement MLP appris
-- ✅ Ordre 2 (Hessien diagonal) résout qualitativement l'instabilité du Koch
-- ✅ **Identification online de J(θ) avec warmup canonique + DLS** atteint 0.067 ± 0.023 m sur SO-100, statistiquement significatif vs baseline avec oracle MuJoCo
-- ✅ Embodiment-agnostic : même algorithme V6 sur 2 bras de géométries différentes
+**Honnêteté brutale (deux faux claims précédents corrigés cette nuit) :**
+- ❌ "V1 bat baseline 0.144 < 0.222" → en vrai V1 N=10 = **0.279 ± 0.041 m**, pire que baseline (cherry-pick d'un seul seed favorable)
+- ❌ "V4 ADAPTIVE = 0.034 m, 4× V1, 6.5× baseline" → en vrai 0.159 ± 0.121 m sur N=10, std > mean (cherry-pick seed 42)
+- ✅ Seule victoire SIGNIFICATIVE survivante : **V6 résout le bootstrap problem** (warmup canonique + DLS regularization)
 
-**Ce qui reste pour publication complète :**
-- Re-confirmer V1, V2, V3 en N=10 (jamais validés statistiquement)
-- Investiguer hyperparam sensitivity de V6 (step_size, noise_scale)
-- Sim-to-real (S4 hardware avec bras DIY)
+**Ce qui reste pour soumission preprint complet :**
+1. Implémenter et comparer aux **5 baselines littérature** (DLS-IK Buss 2009, RL limited-samples, imitation, Active Inference pymdp, iLQR)
+2. Ablation studies (warmup seul, DLS seul, vs combiné)
+3. Hyperparameter sensitivity analysis V6
+4. Sim-to-real (S4 hardware avec bras DIY)
+5. Section "Related Work" sourcée
+
+**Voie éditoriale recommandée :** publication communauté open source + blog technique D'ABORD (V6 actuel suffit, méthodologie + insights), preprint académique APRÈS extension hardware S4 + baselines littérature implémentés.
 
 ---
 
@@ -74,16 +78,29 @@ Au lieu d'apprendre la cinématique f(θ) → p **globalement** (MLP), apprendre
 
 `cerveau/champ_directionnel.py` (~70 lignes) + `cerveau/agent_champ.py` (~80 lignes) + `05_champ_directionnel_3d.py`.
 
-### Résultat empirique
+### Résultat empirique — invalidé par N=10
 
-**SO-100, 30 cycles, protocole α (cible aléatoire chaque cycle) :**
-- Erreur 1ère application : 0.273 m
-- Erreur finale (moy 5) : **0.144 m**
-- Reduction phase application : +47.3%
+**Reporté initialement (n=1 seed 42, claim cherry-pické) :**
+- Erreur finale (moy 5) : 0.144 m → "bat baseline (0.222 m)"
 
-**Comparaison :**
-- Baseline + IK oracle MuJoCo : 0.222 m → **L'agent autonome bat l'agent assisté** : 0.144 m vs 0.222 m
-- MLP appris : 0.401 m → **15 paramètres bien choisis (M ∈ ℝ^(3×5)) > 250 paramètres mal exploités (MLP)**
+**Validation statistique N=10 seeds (eval_v1_stats.py, faite après faille identifiée par Yoan) :**
+
+```
+SO-100 V1 N=10 :
+  Mean last 5 inter-run        : 0.279 ± 0.041 m
+  Mean phase application 25    : 0.284 ± 0.016 m
+  Min/Max seed                 : 0.216 / 0.362
+  
+Koch V1 N=10 (workspace adapté):
+  Mean last 5 inter-run        : 0.201 ± 0.043 m
+  Mean phase application 25    : 0.205 ± 0.022 m
+```
+
+**❌ V1 NE BAT PAS le baseline statistiquement** — la valeur 0.144 m du seed 42 était un cherry-pick. Sur N=10, V1 SO-100 = 0.279 ± 0.041 m, **pire que baseline 0.222 m**.
+
+**Comparaison à MLP appris (V1 EFE testé en n=1 aussi) :** MLP = 0.401 m. V1 reste mieux que MLP sur le seed 42 reporté, mais sans validation N=10 du MLP, la comparaison n'est pas statistiquement défensible.
+
+**Ce qui reste valide qualitativement de la "victoire 1" :** l'intuition matchllm (champ directionnel local appris empiriquement) **est une bonne direction**, mais V1 seul (ordre 1, pas de warmup, pas de DLS, application 1-step) ne suffit pas à battre baseline. Il fallait V6 (avec warmup + DLS + multi-step) pour avoir un gain significatif.
 
 ### Insight clé
 
@@ -177,9 +194,11 @@ J_t = lstsq(diff(θ_buffer), diff(p_buffer))
 
 Plus un **petit bruit ε ~ N(0, 0.02²)** ajouté à chaque action pour garantir la **persistance d'excitation** (les directions θ explorées doivent rester variées pour que la matrice de design ne soit pas singulière).
 
-### Insight clé non-évident
+### Hypothèse clé (à valider formellement)
 
-**Le J(θ) variable capture IMPLICITEMENT les cross-terms du Hessien complet.** Pas besoin de modéliser explicitement H_ij — le simple fait que J change selon le point courant intègre toute la non-linéarité locale.
+**Hypothèse :** *« Le J(θ) variable capturerait IMPLICITEMENT les cross-terms du Hessien complet — le simple fait que J change selon le point courant intégrerait toute la non-linéarité locale, sans nécessiter de modéliser explicitement H_ij. »*
+
+⚠️ **Cette hypothèse n'est pas démontrée formellement** dans ce rapport. Elle est suggérée par le fait que V4 (J adaptatif sans Hessien explicite) fonctionne mieux qualitativement que V2 (Hessien explicite sans J adaptatif) sur SO-100. Démonstration formelle requiert : (a) preuve mathématique d'équivalence ou borne d'approximation, (b) ablation empirique controlée. À investiguer pour le preprint.
 
 C'est le même mécanisme que :
 - **Adaptive control** classique (Astrom-Wittenmark)
@@ -263,13 +282,18 @@ Koch V4 ADAPTIVE workspace adapté :
 | Algorithme | Erreur finale | Std reporté | N | Note |
 |---|---|---|---|---|
 | Baseline + IK oracle MuJoCo | 0.222 m | déterministe | 1 | Triche jacobienne réelle |
-| MLP appris (EFE) | 0.401 m | n/a | 1 | ❌ Échec qualitatif clair |
-| Champ V1 ordre 1 (matchllm) | 0.144 m | n/a | 1 | ⚠️ N=1, reproductibilité non testée |
-| Champ V2 ordre 2 sample | 0.267 m | n/a | 1 | ⚠️ N=1 |
-| V3 itératif + régul H | 0.230 m | n/a | 1 | ⚠️ N=1 |
-| **V4 ADAPTIVE multi-step** | **0.159 ± 0.121** | inter-run | **10** | Best seed 0.012, worst seed 0.361 |
+| MLP appris (EFE) | 0.401 m | n/a | 1 | ⚠️ N=1 mais clairement pire |
+| **V1 Champ ordre 1 (matchllm)** | **0.279 ± 0.041 m** | **inter-run** | **10** | ❌ NE BAT PAS baseline (claim 0.144 invalidé) |
+| Champ V2 ordre 2 sample | 0.267 m | n/a | 1 | ⚠️ N=1, à valider |
+| V3 itératif + régul H | 0.230 m | n/a | 1 | ⚠️ N=1, à valider |
+| **V4 ADAPTIVE multi-step** | **0.159 ± 0.121 m** | inter-run | **10** | ⚠️ Mean meilleur, std > mean → non sig |
+| **V6 ADAPTIVE warmup + DLS** | **0.067 ± 0.023 m** | inter-run | **10** | ✅ **3.3× baseline, statistiquement significatif** |
 
-⚠️ V1, V2, V3 reportés en N=1 dans la version originale — leur statut reproductible est INCERTAIN. Tests N=10 à refaire pour validation publishable. Seul V4 a été validé statistiquement (rétroactivement sur demande de Yoan).
+**Lecture finale honnête :**
+- Seuls **V1 N=10**, **V4 N=10**, **V6 N=10** ont été validés statistiquement.
+- **Seul V6 bat baseline statistiquement** (mean + 2σ = 0.113 < 0.222).
+- Le claim original "V1 = champ matchllm bat baseline" était un cherry-pick (seed 42 = 0.144, mais distribution N=10 = 0.279 ± 0.041).
+- V2 et V3 restent non validés statistiquement (à compléter pour preprint).
 
 ---
 
@@ -331,11 +355,97 @@ Faille statistique V4 identifiée → eval N=10 seeds montre std (0.121) > mean 
 
 ### Solution V6 (combinaison de 2 mécanismes)
 
-`cerveau/agent_adaptive_v6.py` (~80 lignes, hérite V4) :
+`cerveau/agent_adaptive_v6.py` (~80 lignes, hérite V4).
 
-**Mécanisme 1 — Warmup canonique** : avant de commencer les cibles, faire 5 mouvements canoniques (1 par DoF, sign aléatoire, amplitude 0.15 rad). Cela remplit le buffer avec des observations diversifiées garantissant un J initial informatif.
+#### Équations formelles
 
-**Mécanisme 2 — DLS regularization** : `Δθ = J^T (JJ^T + λ²·I)^(-1) · e` avec λ=0.05, au lieu du pseudo-inverse pur. Protège mathématiquement quand J dégénère temporairement (sortie d'une singularité possible).
+**État du système au step k :**
+- θ_k ∈ ℝ^n : configuration articulaire
+- p_k ∈ ℝ^3 : position end-effector observée
+- p* ∈ ℝ^3 : cible
+- J_k ∈ ℝ^(3×n) : jacobienne locale estimée
+
+**Eq. (1) — Identification online de J par recursive least squares :**
+
+Étant donné un buffer roulant **B_k = {(θ_i, p_i)}_{i=k-K..k}** (K=12), on calcule les différences consécutives :
+
+```
+ΔΘ_k = [θ_{i+1} - θ_i]_i ∈ ℝ^((K-1)×n)
+ΔP_k = [p_{i+1} - p_i]_i ∈ ℝ^((K-1)×3)
+```
+
+Et on estime J par moindres carrés :
+
+```
+J_k = argmin_J ||ΔP_k - ΔΘ_k · J^T||_F²  =  ΔP_k^T · ΔΘ_k · (ΔΘ_k^T ΔΘ_k)^(-1)        (1)
+```
+
+**Eq. (2) — Damped Least Squares (DLS) pour la correction articulaire :**
+
+```
+δθ_k = J_k^T · (J_k J_k^T + λ² I_3)^(-1) · (p* - p_k)        (2)
+```
+
+avec λ=0.05 (paramètre de régularisation Tikhonov, garantit l'inversion même quand J est rang-déficient).
+
+**Eq. (3) — Action effective avec persistence-of-excitation :**
+
+```
+θ_{k+1} = θ_k + α · δθ_k + ε_k,    ε_k ~ N(0, σ² I_n)        (3)
+```
+
+avec α=0.4 (step size) et σ=0.02 (bruit pour persistance d'excitation, garantit ΔΘ_k bien conditionné).
+
+#### Pseudocode V6
+
+```
+Algorithm V6 ADAPTIVE (warmup canonique + identification J online + DLS)
+─────────────────────────────────────────────────────────────────────────
+Input: target trajectory {p*_t}, joint limits [θ_low, θ_high]
+Hyper: K=12 (buffer size), λ=0.05 (DLS), α=0.4 (step), σ=0.02 (noise),
+       δ_warmup=0.15 (warmup amplitude), n_dof=5
+
+# === PHASE WARMUP (n_dof essais canoniques) ===
+θ_init ← current configuration
+for i ← 1 to n_dof:
+    sign ← random ±1
+    Δθ_i ← e_i · sign · δ_warmup     # perturbation canonique selon DoF i
+    p_i ← execute(θ_init + Δθ_i)
+    Buffer.append(θ_init + Δθ_i, p_i)
+end for
+execute(θ_init)                       # reset à init après warmup
+J_local ← lstsq(diff(Buffer.θ), diff(Buffer.p))   # Eq. (1)
+
+# === PHASE APPLICATION (online identification + DLS) ===
+for each target p* in trajectory:
+    for step k ← 1 to N_steps:
+        θ_k ← current configuration
+        p_k ← execute(θ_k)            # observation
+        e_k ← p* - p_k                # erreur space 3D
+
+        # Update J locally par recursive least squares
+        J_local ← lstsq(diff(Buffer.θ_recent_K), diff(Buffer.p_recent_K))   # Eq. (1)
+
+        # Correction par DLS (protège singularités)
+        δθ_k ← J_local^T · (J_local · J_local^T + λ²·I_3)^(-1) · e_k        # Eq. (2)
+
+        # Action avec persistence d'excitation
+        ε_k ← random N(0, σ²·I_n)
+        θ_{k+1} ← clip(θ_k + α·δθ_k + ε_k, θ_low, θ_high)                   # Eq. (3)
+
+        Buffer.append(θ_{k+1}, execute(θ_{k+1}))
+        if Buffer.size > K: Buffer.pop_oldest()
+    end for
+end for
+```
+
+**Mécanismes clés :**
+
+1. **Warmup canonique** (~5 essais initiaux) : garantit que la matrice ΔΘ_k initiale couvre toutes les directions canoniques, donc J est bien identifiable dès le 1er cycle d'application. Résout le bootstrap problem où certains seeds tombaient sur des perturbations dégénérées.
+
+2. **DLS regularization** (Eq. 2) : la perturbation Tikhonov λ²·I garantit l'inversion même quand J devient temporairement rang-déficient (singularité cinématique). Sans DLS, ‖J⁺‖ explose et l'agent se bloque.
+
+3. **Persistence-of-excitation** (Eq. 3, terme ε_k) : sans bruit, les directions θ explorées peuvent collapser → ΔΘ_k devient singulier → J non identifiable. Bruit minimal (σ=0.02) suffit pour garantir conditionnement.
 
 ### Résultats N=10 seeds
 
@@ -359,6 +469,12 @@ Koch :
 2. **Aucun outlier catastrophique** sur 20 runs (10 seeds × 2 bras) — distribution stable
 3. **std << mean** → comportement reproductible, publishable
 4. **Significativement meilleur que baseline IK oracle** (mean + 2σ < 0.222 m sur SO-100)
+
+### Figure de convergence V6 — N=10 seeds (médiane + IQR)
+
+![V6 convergence](../agents/cyborg-robotique-V1.0/figures/v6_convergence.png)
+
+*Convergence de l'erreur de tracking V6 ADAPTIVE (médiane et IQR Q25-Q75 sur N=10 seeds, 2 bras). Lignes verticales pointillées séparent les 15 cibles (8 steps par cible). Sur SO-100 et Koch, l'agent converge en quelques steps par cible avec une variance inter-run faible et stable au cours du temps.*
 
 ### Citation préparée pour preprint F1 (version V6, honnête et significative)
 
@@ -455,7 +571,9 @@ V6 EST publishable comme **contribution open source / méthodologie pédagogique
 
 ---
 
-## Méthode de la séance (pour reproductibilité humain-IA)
+## Annexe A — Note sur la méthode équipe augmentée (hors scope scientifique)
+
+> Cette section documente le processus de travail humain-IA ayant produit ce rapport. **Hors scope d'un preprint académique** mais utile pour reproductibilité méthodologique, lecteurs LinkedIn du pacte de publication, et futurs Claude qui ouvrent la session dyad.
 
 Cette séance illustre concrètement le frame **équipe augmentée** : Yoan apporte les intuitions mathématiques brutes, Claude reformule en notation propre + code en Python compact, on lance le test, on lit le résultat ensemble, on ajuste.
 
