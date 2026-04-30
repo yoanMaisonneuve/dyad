@@ -11,11 +11,11 @@
 > Si Max plan a coupé la session, c'est ce bloc qui dit où reprendre. Mis à jour à chaque action significative (Claude la rafraîchit en checkpoint fréquent — pas attendre fin de session).
 
 - **Dernière action faite :** 2026-04-30 ~04h — **J+1 marathon CLOS PROPREMENT.** Livré : S1 audit complet + S2 J+8 setup MuJoCo + S2 J+9 V1 MLP (échec) + S2 J+9 V2 champ directionnel matchllm (**victoire, 0.144m bat baseline 0.222m**) + S2 J+9 V3 Koch portabilité (mitigé, leçon scaling). Production EVAL-001, EVAL-002, RAPPORT-J1-DYAD, INDEX.md racine. Fix segfault MuJoCo Windows. README racine dyad. Sprint en avance ~13 jours calendaire.
-- **Prochaine action prévue (S2 J+10 ou suivant) :**
-  1. **Auto-tuning hyperparams** par bras (régularisation adaptative selon ‖M‖ pour fixer instabilité Koch V3)
-  2. **Test 1-2 bras supplémentaires** (Franka, Kinova, UR5 dispo dans menagerie) pour portabilité élargie
-  3. **Protocole β** (cible fixe + multi-step) pour comparaison plus juste
-  4. **Pacte LinkedIn post #2** (matière exceptionnelle : champ directionnel bat oracle)
+- **CORRECTION 2026-04-30 ~05h :** la solution Koch n'était PAS auto-tuning hyperparams. C'était **modèle ordre 2 (Hessien diagonal)** — intuition Yoan "3 mouvements/DoF + intégration vitesse + accélération du gradient". Implémenté V4 (`07_champ_v2_koch.py`) → +40.7% reduction Koch (vs -166.8% V3), finale 0.189m. ‖J‖ ≈ ‖H‖ → Hessien capture autant d'info que Jacobien.
+- **Prochaine action prévue (S2 J+10) :**
+  1. **Test V2 ordre 2 sur SO-100** (devrait améliorer les 0.144m du V1)
+  2. **Démo hardware réelle S4** (driver Arduino + servos Yoan + bras DIY 3D-print)
+  3. **Pacte LinkedIn post #2** (double victoire matchllm + ordre 2)
 - **Subagents en background :** aucun
 - **Tokens cumulés sprint :** ~470K / ~5M cible (~9% budget sprint, ~88% session journalière du 2026-04-30 utilisée — ~12% restant avant reset)
 - **État fichiers en cours d'édition :** aucun (tout commité + pushé)
