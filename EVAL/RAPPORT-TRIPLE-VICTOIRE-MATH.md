@@ -366,6 +366,85 @@ Koch :
 
 ---
 
+## Positionnement vs état de l'art robotique (deuxième faille identifiée par Yoan)
+
+### Notre baseline — qu'est-ce que c'est vraiment ?
+
+Le baseline reporté à 0.222 m est un **IK iteratif via jacobienne MuJoCo** (`cerveau/ik_oracle.py`) :
+- Accès direct à la jacobienne **exacte** via `mj_jacBody` (ground truth analytique)
+- 80 itérations de descente de gradient par cycle (`max_iter=80`, `lr=0.5`, `tol=0.005`)
+- En **1 cycle = 1 cible**, sans multi-step
+
+**Ce n'est PAS un baseline issu de la littérature scientifique.** C'est juste un **oracle interne** qui représente "qu'est-ce qu'un IK iteratif simple atteint avec connaissance modèle exacte". Reviewer pertinent dirait : *« vous comparez à une implémentation jouet, pas à de la vraie littérature »*.
+
+**Limite honnête :** 0.222 m vient de notre propre infrastructure, pas d'un papier publié. Pour un vrai preprint, il faudrait implémenter et comparer à au moins un baseline de chacune des familles ci-dessous.
+
+---
+
+### Comment sont faits les cerveaux robotiques actuels (taxonomie 2024-2026)
+
+| Famille | Méthodes représentatives | Précision typique reach 5-7 DoF | Pré-requis |
+|---|---|---|---|
+| **Model-based classique** | IK analytique closed-form, **DLS-IK (Buss 2009)**, Operational Space Control (Khatib), MPC, iLQR | **sub-millimétrique** avec modèle parfait | modèle URDF/MJCF complet + cinématique connue |
+| **Reinforcement Learning** | Visuomotor RL (Levine 2016), Domain Randomization (Tobin 2017), DreamerV3 | 1-10 cm | millions de samples sim, sim-to-real transfer |
+| **Imitation Learning** | ALOHA (Stanford 2023), Mobile ALOHA, **Diffusion Policy (Chi 2023)** | 1-3 cm | dataset teleop (équipement coûteux) |
+| **VLA / Foundation Models** | **RT-2 (Google 2023)**, OpenVLA (Stanford 2024), π0/π0.5 (Physical Intelligence 2024-25), GR00T N1.5 (NVIDIA 2025) | variable, en progrès | modèles 7-50B params, training $$$$$ |
+| **Adaptive control online** *(notre famille)* | Iterative Learning Control (Bristow), Adaptive Admittance, **Recursive Least Squares (Astrom-Wittenmark)**, **Active Inference robotics (Lanillos 2018-21, Friston)** | variable, peu benchmarké | minimal, apprend par interaction |
+
+### Positionnement V6
+
+**V6 appartient à la famille "Adaptive control online" / "Active Inference robotics"** mais avec une combinaison originale :
+
+```
+V6 = Recursive Jacobian identification (RLS-like, buffer K=12)
+   + Persistence-of-excitation noise
+   + Canonical bootstrap (warmup n_dof essais)
+   + Damped Least Squares (Buss 2009 sur J appris au lieu de J connu)
+   + Lineage matchllm (champ directionnel local)
+```
+
+**Ce qui est original :** combiner toutes ces techniques classiques en un agent **200 lignes Python**, **sans aucun pré-requis** (pas de modèle, pas de dataset, pas de teleop), en mode **embodiment-agnostic** (testé sur 2 bras de géométries différentes).
+
+**Trade-off honnête vs autres familles :**
+
+| | V6 vs ... | Avantage V6 | Désavantage V6 |
+|---|---|---|---|
+| **vs DLS-IK (Buss 2009) classique** | apprend J au lieu de l'utiliser connue | embodiment-agnostic, no model | 10× moins précis (V6 = 6.7 cm vs DLS-IK ~mm) |
+| **vs RL (Levine et al)** | 75 actions/cible vs millions | sample-efficient (×100,000) | moins de généralisation tâches complexes |
+| **vs Imitation (ALOHA)** | pas de teleop nécessaire | accessible solo / DIY | moins précis sur tâches haute dextérité |
+| **vs VLA (π0, RT-2, GR00T)** | 200 lignes vs 7-50B params | inspectable, debuggable, opensource | pas de raisonnement langage |
+
+### Vrais baselines à implémenter pour preprint complet
+
+Pour qu'un reviewer académique accepte le preprint F1, il faudrait implémenter et comparer empiriquement V6 contre :
+
+1. **Random exploration + nearest neighbor** (baseline trivial obligatoire)
+2. **Pure DLS-IK (Buss 2009)** avec modèle MuJoCo connu (vrai baseline analytique)
+3. **Vanilla PPO/SAC limited-samples** (75 actions/cible) (RL fair comparison)
+4. **Active Inference baseline** via pymdp (Heins et al 2022) en discret + extension continue
+5. **iLQR à horizon 1** (model-based predictive)
+
+Sans ces 5 baselines au minimum, le preprint sera rejeté en review pour *« insufficient comparison to prior art »*.
+
+### Lecture honnête de notre positionnement actuel
+
+V6 est **prometteur mais pas encore publishable comme contribution scientifique**. Ce qui manque :
+- Comparaison empirique aux baselines littérature (5 listées ci-dessus)
+- Ablation studies (warmup seul, DLS seul, vs combiné)
+- Hyperparameter sensitivity analysis
+- Tests sim-to-real (S4 hardware)
+- Discussion section "Related Work" sourcée
+
+V6 EST publishable comme **contribution open source / méthodologie pédagogique** :
+- Code minimal, lisible, reproductible
+- Posture "construit par altruisme" (Apache 2.0)
+- Cible communauté solo robotique DIY (pas académique pure)
+- Format Print Your Own Optimus framework, pas paper SOTA
+
+**Choix éditorial à faire pour le pacte de publication F1** : viser preprint académique (besoin 5 baselines + ablations + months de travail) OU viser publication communauté open source / blog technique (V6 actuel suffit, plus rapide).
+
+---
+
 ## Validation statistique (faille critique identifiée par Yoan)
 
 **Critique formulée :** *« 0.034 m sur combien de runs ? Si c'est 1 run de 15 cibles → ce chiffre n'est pas reproductible au sens statistique. Un reviewer demande systématiquement : what's the standard deviation? »*
