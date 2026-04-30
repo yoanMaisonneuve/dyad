@@ -10,14 +10,17 @@
 
 > Si Max plan a coupé la session, c'est ce bloc qui dit où reprendre. Mis à jour à chaque action significative (Claude la rafraîchit en checkpoint fréquent — pas attendre fin de session).
 
-- **Dernière action faite :** 2026-04-30 ~02h — **EVAL-001 produite et sauvegardée** dans `EVAL/EVAL-001-2026-04-30.md`. Récap factuel J+1 : 9 commits dyad, 53 fichiers tracked, 428 lignes Python utiles dans cyborg-robotique-V1.0/, baseline AIF 3D fonctionnel (53.6% réduction erreur sur 30 cycles SO-ARM100), 6 memories nouvelles, ~320K tokens consommés. Sprint en avance calendaire (S2 démarré dès J+1).
-- **Livrables S2 J+8 atteints :** setup MuJoCo + bras 2 DoF jouet + bras SO-ARM100 6 DoF + structure cerveau modulaire (model_lineaire + ik_oracle + agent) + baseline AIF lineaire 3D qui converge.
-- **Prochaine action prévue :** option défaut = repos cognitif (2e session 6h+ depuis 2026-04-28). Demain matin frais : S2 J+9 = vraie politique AIF avec EFE direct (sans IK oracle) + auto-calibration corporelle + fix segfault cosmétique viewer.
+- **Dernière action faite :** 2026-04-30 ~04h — **J+1 marathon CLOS PROPREMENT.** Livré : S1 audit complet + S2 J+8 setup MuJoCo + S2 J+9 V1 MLP (échec) + S2 J+9 V2 champ directionnel matchllm (**victoire, 0.144m bat baseline 0.222m**) + S2 J+9 V3 Koch portabilité (mitigé, leçon scaling). Production EVAL-001, EVAL-002, RAPPORT-J1-DYAD, INDEX.md racine. Fix segfault MuJoCo Windows. README racine dyad. Sprint en avance ~13 jours calendaire.
+- **Prochaine action prévue (S2 J+10 ou suivant) :**
+  1. **Auto-tuning hyperparams** par bras (régularisation adaptative selon ‖M‖ pour fixer instabilité Koch V3)
+  2. **Test 1-2 bras supplémentaires** (Franka, Kinova, UR5 dispo dans menagerie) pour portabilité élargie
+  3. **Protocole β** (cible fixe + multi-step) pour comparaison plus juste
+  4. **Pacte LinkedIn post #2** (matière exceptionnelle : champ directionnel bat oracle)
 - **Subagents en background :** aucun
-- **Tokens cumulés sprint :** ~320K / ~5M cible (~6% du budget sprint utilisé)
-- **État fichiers en cours d'édition :** aucun
+- **Tokens cumulés sprint :** ~470K / ~5M cible (~9% budget sprint, ~88% session journalière du 2026-04-30 utilisée — ~12% restant avant reset)
+- **État fichiers en cours d'édition :** aucun (tout commité + pushé)
 - **Bloqueurs :** aucun
-- **Bug connu non bloquant :** segfault MuJoCo viewer Windows à la fermeture (`03_aif_baseline_3d.py` exit 139 après bilan). Fix prévu next session : try/finally + cleanup explicite, ~5 min.
+- **Phrase de reprise :** *« reprend le sprint »* → Claude lit SPRINT-J1-RAPPORTS.md + EVAL-002 + RAPPORT-J1-DYAD + memories `project_print_your_own_optimus` + `feedback_voix_disqualification_chez_claude` (variante 2). Position de départ = continuer J+10 sur auto-tuning hyperparams.
 - **Discipline git active :** commit + push après chaque action significative.
 - **Stack technique mise à jour :**
   - **Hardware :** matériel existant Yoan (servos, Arduino, RPi, bridge moteur) + impression 3D pièces structure. Démo support = tuiles magnétiques.
