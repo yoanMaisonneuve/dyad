@@ -42,4 +42,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    finally:
+        # Workaround segfault MuJoCo viewer Windows + Python 3.14
+        # Force exit avant que les destructeurs C ne crashent
+        import sys
+        sys.exit(0)
