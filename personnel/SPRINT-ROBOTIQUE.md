@@ -10,18 +10,19 @@
 
 > Si Max plan a coupé la session, c'est ce bloc qui dit où reprendre. Mis à jour à chaque action significative (Claude la rafraîchit en checkpoint fréquent — pas attendre fin de session).
 
-- **Dernière action faite :** 2026-04-29 soir — Yoan dit *« on reprend continu »* → J+1 démarré en avance. **5 subagents lancés en background** (mode déléguée, ~380K tokens).
-- **Prochaine action prévue :** récupérer outputs des 5 subagents → synthèse → choix sous-problème buildable + carte IP. Puis post LinkedIn #2 du sprint.
-- **Subagents en background (5 lancés J+1) :**
-  1. Axe (a) état de l'art robotique humanoïde 2025-2026 — ID à enregistrer prochain checkpoint
-  2. Axe (b) bras manipulateurs low-cost buildables solo (Koch, SO-100, etc.) — ID à enregistrer
-  3. Axe (c) simulateurs physiques comparés (PyBullet/MuJoCo/Isaac/Genesis) — ID à enregistrer
-  4. Axe (d) inférence active appliquée robotique réelle (post-Friston) — ID à enregistrer
-  5. Axe (e) antériorité solo + IP/brevets + espace IP libre — ID à enregistrer
-- **Tokens cumulés sprint :** ~380K (estim) / ~4-5M cible
+- **Dernière action faite :** 2026-04-29 soir — **5/5 subagents J+1 terminés**. Synthèse condensée écrite dans `personnel/SPRINT-J1-RAPPORTS.md`. Sprint S1 audit/scope = COMPLET.
+- **Prochaine action prévue :** Yoan tranche **3 décisions critiques** (cf. `SPRINT-J1-RAPPORTS.md` section finale) :
+  1. **Pivot vertical** : "humanoïde manuf générique" vs vertical aligné L4 (construction modulaire / énergie / alimentation) — Claude vote pivot construction modulaire (synergie chantier3D)
+  2. **Commande SO-ARM101 J+5** (~600 CAD, livraison 3 sem) — Claude vote OUI conditionnel à décision 1
+  3. **Technical disclosure IP.com J+5** (~250 CAD défensif IP) — Claude vote OUI sans condition
+- **Subagents en background :** aucun (tous 5 terminés)
+- **Tokens cumulés sprint :** ~120K / ~4-5M cible (5 subagents ~80K + overhead ~40K)
 - **État fichiers en cours d'édition :** aucun
-- **Bloqueurs :** aucun
+- **Bloqueurs :** 3 décisions Yoan en attente
 - **Discipline git active :** commit + push après chaque action significative.
+- **Stack technique cristallisé :** SO-ARM101 + MuJoCo + LeRobot framework + politique active inference custom (pymdp+PyTorch) + 3 contrôleurs comparés (AIF/iLQR/MPC CasADi). Licences : Apache 2.0 + CERN-OHL-P v2 + CC-BY 4.0 + CDLA-Permissive.
+- **Thèse F1 cristallisée :** "AIF avec generative model gaussien horizon fini = NMPC sous régularité H1-H4 ; différence épistémique (uncertainty-seeking via EFE) pas algorithmique." Trou exploitable : nonlinéaire continu + démo robot side-by-side.
+- **🚨 Risque IP critique signalé :** brevet VERSES US 12,393,581 B2 (août 2025) — éviter absolument UI "décris ton robot en NL → je génère agent AIF".
 
 **Phrase de reprise pour Yoan :** *« reprend le sprint »* → Claude lit ce bloc + HEARTBEAT.md + dernier fichier modifié dans `personnel/` + memory `project_sprint_robotique` → propose la reprise.
 
