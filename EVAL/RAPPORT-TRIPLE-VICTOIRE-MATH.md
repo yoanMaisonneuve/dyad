@@ -1,9 +1,10 @@
-# RAPPORT — Triple itération mathématique J+1 (2026-04-30)
+# RAPPORT — V6 ADAPTIVE : cerveau robotique adaptatif validé statistiquement (sprint J+1, N=10, 3.3× baseline)
 
-> ⚠️ **VERSION 2 — RÉVISÉE après faille statistique critique identifiée par Yoan.**
-> La V1 de ce rapport reportait **0.034 m sur SO-100 (V4 ADAPTIVE)** comme résultat principal. C'était le **best-case d'un seul seed cherry-pické** (seed 42) parmi les 10 testés ensuite. **Les chiffres sont corrigés ci-dessous avec N=10 runs et std reportés.** Les conclusions qualitatives tiennent partiellement, l'ampleur des gains est revue à la baisse.
+> Rapport scientifique narratif du sprint J+1 (2026-04-30) sur un cerveau robotique adaptatif open source. **4 itérations mathématiques** ont été testées, **1 seule victoire significative au sens statistique** : **V6 ADAPTIVE** (warmup canonique + DLS regularization).
 >
-> Rapport scientifique narratif des 3 itérations math de la nuit du 2026-04-30 sur un cerveau robotique adaptatif open source. Sur SO-ARM100, V4 ADAPTIVE ramène l'erreur médiane à **0.012 m best seed / 0.124 m médiane pooled** mais avec **std inter-run = 0.121 m** (haute variance, distribution skewed avec outliers catastrophiques jusqu'à 0.57 m).
+> **Résultat principal V6** : 0.067 ± 0.023 m sur SO-ARM100 et 0.082 ± 0.031 m sur Alexander Koch low-cost arm (N=10 seeds, mean ± std inter-run). Significativement meilleur que le baseline IK oracle MuJoCo (mean + 2σ < 0.222 m sur les 2 bras). Embodiment-agnostic.
+>
+> ⚠️ **Historique de révisions :** la V1 du rapport présentait V4 ADAPTIVE = "0.034 m, 4× baseline" comme résultat principal. C'était un cherry-pick (seed 42 favorable). Validation N=10 ultérieure a révélé V4 = 0.159 ± 0.121 m (non significatif) et V1 ordre 1 = 0.279 ± 0.041 m (pire que baseline). Le titre original ("Triple victoire") était trompeur. Cette V4 du rapport est honnête.
 >
 > Audience : chercheurs en active inference / control / robotique solo, lecteurs LinkedIn du pacte de publication, futurs collaborateurs Print Your Own Optimus, prochains Claude qui ouvrent la session.
 
