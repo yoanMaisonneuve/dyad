@@ -1,23 +1,36 @@
-# RAPPORT — Triple victoire mathématique J+1 (2026-04-30)
+# RAPPORT — Triple itération mathématique J+1 (2026-04-30)
 
-> Rapport scientifique narratif de la séquence de breakthroughs math de la nuit du 2026-04-30, où 3 intuitions cumulées de Yoan Maisonneuve ont fait passer la précision d'un cerveau robotique adaptatif open source de 0.222 m (baseline avec oracle MuJoCo) à **0.034 m** (V4 ADAPTIVE) sur SO-ARM100 — soit une amélioration de 85%.
+> ⚠️ **VERSION 2 — RÉVISÉE après faille statistique critique identifiée par Yoan.**
+> La V1 de ce rapport reportait **0.034 m sur SO-100 (V4 ADAPTIVE)** comme résultat principal. C'était le **best-case d'un seul seed cherry-pické** (seed 42) parmi les 10 testés ensuite. **Les chiffres sont corrigés ci-dessous avec N=10 runs et std reportés.** Les conclusions qualitatives tiennent partiellement, l'ampleur des gains est revue à la baisse.
+>
+> Rapport scientifique narratif des 3 itérations math de la nuit du 2026-04-30 sur un cerveau robotique adaptatif open source. Sur SO-ARM100, V4 ADAPTIVE ramène l'erreur médiane à **0.012 m best seed / 0.124 m médiane pooled** mais avec **std inter-run = 0.121 m** (haute variance, distribution skewed avec outliers catastrophiques jusqu'à 0.57 m).
 >
 > Audience : chercheurs en active inference / control / robotique solo, lecteurs LinkedIn du pacte de publication, futurs collaborateurs Print Your Own Optimus, prochains Claude qui ouvrent la session.
 
 ---
 
-## Résumé exécutif
+## Résumé exécutif (version révisée N=10)
 
-En 1 séance marathon humain-IA, 3 intuitions mathématiques distinctes apportées par Yoan ont successivement dépassé l'état précédent du sprint :
+En 1 séance marathon humain-IA, 3 intuitions mathématiques distinctes apportées par Yoan ont successivement été testées sur le cerveau robotique. Résultats statistiquement validés (N=10 seeds différents, 15 cibles × 8 steps par seed) :
 
-| # | Intuition | Algorithme | Erreur SO-100 | Gain vs précédent |
+| # | Intuition | Algorithme | Erreur SO-100 (mean ± std N=10) | Status |
 |---|---|---|---|---|
-| 0 | (point de départ) | Baseline + IK oracle MuJoCo | 0.222 m | — |
-| 1 | **Champ directionnel matchllm** | V1 ordre 1 | 0.144 m | +35% |
-| 2 | **Ordre 2 (Hessien diagonal)** | V2 ordre 2 (sur Koch) | 0.189 m sur Koch (résout instabilité) | (autre bras) |
-| 3 | **Sensibilité fine temps réel + cross-terms implicites** | V4 ADAPTIVE | **0.034 m** | **+76%** |
+| 0 | (point de départ) | Baseline + IK oracle MuJoCo | 0.222 m (déterministe) | — |
+| 1 | **Champ directionnel matchllm** | V1 ordre 1 | 0.144 m (1 seed reporté, n=1) | ⚠️ N=1 reproductibilité non testée |
+| 2 | **Ordre 2 (Hessien diagonal)** | V2 ordre 2 sur Koch | qualitatif : -166% → +40% (résout instabilité) | ✅ qualitatif clair |
+| 3 | **Sensibilité fine + cross-terms implicites** | V4 ADAPTIVE | **0.159 ± 0.121 m** (last 5 mean) | ⚠️ Haute variance, gain non significatif vs baseline |
 
-Convergence finale V4 sur cibles individuelles : **4-7 mm de précision**, sans aucune connaissance physique préalable du robot.
+**Convergence cibles individuelles V4 (best-case observé) : 4-7 mm. Cas catastrophiques observés : 380-570 mm.** Distribution très skewed.
+
+**Ce qui est solidement validé :**
+- ✅ Champ directionnel matchllm bat largement MLP appris (0.144 vs 0.401 m, gain qualitatif robuste)
+- ✅ Ordre 2 (Hessien diagonal) résout qualitativement l'instabilité du Koch (configurations non-linéaires)
+- ⚠️ V4 ADAPTIVE améliore en médiane mais variance trop élevée pour claim "4× mieux"
+
+**Ce qui reste à investiguer :**
+- Pourquoi certains seeds (47, 50, 46) donnent erreur > 0.30 m sur SO-100 ?
+- Cibles dégénérées proches singularités cinématiques ?
+- Hyperparams (step_size, noise_scale) trop sensibles à l'init ?
 
 ---
 
@@ -173,56 +186,136 @@ C'est le même mécanisme que :
 
 **Pas de phase exploration séparée — on apprend EN BOUGEANT.**
 
-### Résultat empirique
+### Résultat empirique — version révisée N=10 seeds (faille critique Yoan corrigée)
 
-**SO-100, 15 cibles × 8 steps multi-step (protocole β) :**
+**Détail run seed 42 SO-100** (le run "magique" qui faisait 0.034 m sur les 5 dernières) — 15 cibles × 8 steps :
 
-| Cible | Init → Final |
-|---|---|
-| C2 | 0.201 → **0.0048 m** (5 mm) |
-| C4 | 0.454 → **0.0053 m** (5 mm) |
-| C13 | 0.039 → **0.0044 m** (4 mm) |
-| C15 | 0.026 → **0.0072 m** (7 mm) |
-| C12 | 0.120 → **0.0122 m** (12 mm) |
+| Cible | Init → Final | | Cible | Init → Final |
+|---|---|---|---|---|
+| C1 | 0.476 → 0.320 m | | C9 | 0.165 → 0.019 m |
+| C2 | 0.201 → **0.0048 m** | | C10 | 0.140 → 0.031 m |
+| C3 | 0.312 → **0.406 m** ❌ | | C11 | 0.263 → 0.131 m |
+| C4 | 0.454 → **0.0053 m** | | C12 | 0.120 → 0.012 m |
+| C5 | 0.107 → 0.102 m | | C13 | 0.039 → **0.0044 m** |
+| C6 | 0.105 → 0.023 m | | C14 | 0.113 → 0.015 m |
+| C7 | 0.121 → 0.034 m | | C15 | 0.026 → **0.0072 m** |
+| C8 | 0.170 → 0.171 m | | | |
 
-**Erreur finale moyenne 5 dernières cibles : 0.034 m (3.4 cm)**
-**Erreur finale moyenne globale : 0.086 m**
+**Stats seed 42 SO-100 :**
+- Mean last 5 : **0.034 m** (intra-run std = 0.049)
+- Mean all 15 : **0.086 m** (std all 15 = **0.120**)
+- Médiane last 5 : **0.012 m**
+- Min / Max last 5 : 0.004 / 0.131 m
+- Range : variance énorme INTRA-RUN — convergence excellente sur certaines cibles, échec total sur d'autres (C3, C8)
 
-**Cas individuels : convergence à 4-7 mm sur cibles raisonnables.**
+**Stats inter-run N=10 seeds (42-51) — la vraie distribution :**
 
-### Comparaison historique tous algorithmes (SO-100)
+```
+SO-100 V4 ADAPTIVE :
+  Mean last 5 inter-run  : 0.1593 ± 0.1205 m   (n=10 seeds)
+  Mean all 15 inter-run  : 0.1775 ± 0.0855 m
+  Intra-run std (last 5) : 0.078 m moyen
+  Pooled : median=0.124  min=0.004  max=0.572
+  Per seed last 5 mean :
+    seed 42: 0.034   seed 47: 0.361 ⚠️
+    seed 43: 0.012 ✨ seed 48: 0.038
+    seed 44: 0.246   seed 49: 0.174
+    seed 45: 0.147   seed 50: 0.318 ⚠️
+    seed 46: 0.226   seed 51: 0.038
 
-| Algorithme | Erreur finale | Note |
+Koch V4 ADAPTIVE workspace adapté :
+  Mean last 5 inter-run  : 0.1437 ± 0.0512 m   (n=10 seeds — plus stable)
+  Mean all 15 inter-run  : 0.1482 ± 0.0199 m
+  Pooled : median=0.128  min=0.003  max=0.339
+  Per seed last 5 mean :
+    seed 42: 0.126   seed 47: 0.161
+    seed 43: 0.123   seed 48: 0.133
+    seed 44: 0.153   seed 49: 0.097
+    seed 45: 0.051 ✨ seed 50: 0.215
+    seed 46: 0.240 ⚠️ seed 51: 0.138
+```
+
+**Lectures honnêtes :**
+
+1. **Le claim "0.034 m" était cherry-pick.** Seed 42 favorable. La vraie distribution sur N=10 est `0.159 ± 0.121 m` sur SO-100.
+2. **Distribution skewed** : médiane (0.124) < mean (0.159). Quelques seeds catastrophiques tirent la moyenne vers le haut.
+3. **Cibles individuelles best-case = 4-7 mm.** Cibles individuelles worst-case = 380-570 mm. Variance énorme à toutes les échelles (intra-run + inter-run).
+4. **Koch est en réalité PLUS STABLE inter-run** (std 0.051 vs 0.121) — l'algo se comporte de manière plus reproductible sur le bras compact, paradoxalement.
+5. **Vs baseline (0.222 m déterministe)** : V4 SO-100 mean 0.159 ± 0.121 → améliore en moyenne mais le **chevauchement statistique est réel**. Pas de claim "significativement meilleur" possible avec N=10 et cette variance.
+
+**Comparaison réelle revue :**
+
+| Algo | SO-100 mean ± std | Statut comparaison baseline |
 |---|---|---|
-| Baseline + IK oracle MuJoCo | 0.222 m | Triche avec jacobienne réelle |
-| MLP appris (EFE) | 0.401 m | ❌ Échec |
-| Champ V1 ordre 1 (matchllm) | 0.144 m | Bat baseline |
-| Champ V2 ordre 2 sample | 0.267 m | Sample EFE introduit du bruit |
-| V3 itératif + régul H | 0.230 m | Modèle local mal adapté α |
-| **V4 ADAPTIVE multi-step** | **0.034 m** | 🏆 **4× V1, 6.5× baseline** |
+| Baseline + IK oracle | 0.222 m (déterministe) | référence |
+| MLP appris | 0.401 m (n=1) | clairement pire |
+| V1 champ directionnel | 0.144 m (n=1) | ⚠️ N=1, à reconfirmer |
+| V4 ADAPTIVE | **0.159 ± 0.121 m** (n=10) | ⚠️ pas significatif |
+
+### Comparaison historique tous algorithmes (SO-100) — révisée N=10
+
+| Algorithme | Erreur finale | Std reporté | N | Note |
+|---|---|---|---|---|
+| Baseline + IK oracle MuJoCo | 0.222 m | déterministe | 1 | Triche jacobienne réelle |
+| MLP appris (EFE) | 0.401 m | n/a | 1 | ❌ Échec qualitatif clair |
+| Champ V1 ordre 1 (matchllm) | 0.144 m | n/a | 1 | ⚠️ N=1, reproductibilité non testée |
+| Champ V2 ordre 2 sample | 0.267 m | n/a | 1 | ⚠️ N=1 |
+| V3 itératif + régul H | 0.230 m | n/a | 1 | ⚠️ N=1 |
+| **V4 ADAPTIVE multi-step** | **0.159 ± 0.121** | inter-run | **10** | Best seed 0.012, worst seed 0.361 |
+
+⚠️ V1, V2, V3 reportés en N=1 dans la version originale — leur statut reproductible est INCERTAIN. Tests N=10 à refaire pour validation publishable. Seul V4 a été validé statistiquement (rétroactivement sur demande de Yoan).
 
 ---
 
-## Limites honnêtes
+## Limites honnêtes (version révisée)
 
-### Portabilité partielle vers Koch
+### Faille critique #1 — résultats V1/V2/V3 N=1
 
-V4 sur Koch (workspace adapté à son reach) : **0.126 m** (5 dernières) — meilleur que V2 ordre 2 (0.177-0.189 m), mais reste 4× moins bon que SO-100.
+Tous les algos antérieurs à V4 ont été reportés sur **un seul run par algo**. Vu la variance énorme observée sur V4 (std=0.12 m sur SO-100), il est probable que V1, V2, V3 ont la même haute variance. **Les claims "V1 = 0.144 m" et "V2 Koch = 0.189 m" doivent être revus avec N=10 pour être publishable.**
 
-**Hypothèses pour le gap résiduel :**
-1. step_size = 0.4 calibré SO-100, peut overshooter sur segments courts du Koch
-2. Configurations singulières internes au workspace Koch (DLS pourrait aider)
-3. Buffer 12 obs insuffisant pour identifier J correctement sur géométrie compacte
+### Faille critique #2 — variance V4 énorme
+
+`std (0.121) > mean (0.159)` sur SO-100 — distribution catastrophiquement skewed. Cas extrêmes :
+- Best seed (43) : 0.012 m (millimetre-class)
+- Worst seed (47) : 0.361 m (pire que baseline)
+- Range : 30× entre best et worst
+
+**Pas publishable comme "4× mieux que baseline"** sans investigation des cas catastrophiques.
+
+### Pistes d'investigation pour réduire variance
+
+1. **Cibles dégénérées proches singularités** — sample peut tomber sur configs où aucun J adaptive ne converge
+2. **Hyperparams sensibles à init** — step_size=0.4 peut overshooter selon état initial du buffer
+3. **Buffer initialisation** — les 12 premières obs déterminent J initial → forte sensibilité aux 12 premières actions aléatoires
+4. **Solution potentielle** : warmup phase avec excitation contrôlée + DLS regularization (V5) + step_size adaptif
+
+### Portabilité Koch — révisée
+
+V4 sur Koch (workspace adapté) : **0.144 ± 0.051 m** (n=10) — plus stable inter-run que SO-100. Comportement reproductible mais précision plafonnée à ~14 cm en moyenne.
 
 ### V5 trajectory tracking : exploratoire, pas de gain mesurable
 
-Test d'intention d'ordre 2 (suivi trajectoire continue à vitesse constante) : **0.119 m global SO-100, 0.129 m Koch**. Pas de gain mesurable vs V4 ponctuel — la trajectoire n'avait pas de terme feedforward (Δθ_ff = J⁺·v) qui compenserait le retard dynamique. Hypothèse théorique reste valide mais nécessiterait test additionnel.
+Test d'intention d'ordre 2 (suivi trajectoire continue) : 0.119 m global SO-100, 0.129 m Koch. Pas de gain mesurable vs V4 — manque le terme feedforward Δθ_ff = J⁺·v.
 
 ---
 
-## Pour le preprint F1 — citation préparée
+## Pour le preprint F1 — citation révisée (honnête)
 
-> *« Online adaptive identification of the Jacobian J(θ) with rolling buffer (K=12 observations) and persistence-of-excitation noise (σ=0.02) achieves 0.034 m mean final error on a 5-DoF arm (SO-ARM100) reaching task — 4× better than offline-calibrated linear models and 6.5× better than the IK-oracle baseline. The implicit capture of cross-terms via local Jacobian recalibration outperforms explicit Hessian modeling on this task. The approach extends naturally across robot embodiments (validated on Alexander Koch low-cost arm with workspace-adapted targets), demonstrating an embodiment-agnostic control architecture suitable for DIY 3D-printed humanoid arms. »*
+> *« Online adaptive identification of the Jacobian J(θ) with rolling buffer (K=12 observations) and persistence-of-excitation noise (σ=0.02) achieves a median final error of 0.124 m on a 5-DoF arm (SO-ARM100) reaching task across 10 random seeds (mean 0.159 ± 0.121 m, range 0.004-0.572 m). Best-case convergence reaches 4-7 mm on individual targets, but the high inter-run variance (std > mean) and presence of catastrophic outliers (worst seed 0.361 m, exceeding the IK-oracle baseline of 0.222 m) prevent claims of significant improvement over baseline at N=10. The approach demonstrates more reproducible behavior on the more compact Alexander Koch low-cost arm (mean 0.144 ± 0.051 m, n=10), suggesting embodiment-agnostic potential but requiring further investigation into hyperparameter sensitivity and target degeneracy before publication. »*
+
+**Reformulation alternative pour LinkedIn (matière pédagogique sans surclaim) :**
+
+> *« On a testé 5 architectures de cerveau robotique apprenant la cinématique d'un bras par interaction. Le champ directionnel matchllm + identification adaptive de la jacobienne en temps réel atteint 4-7 mm de précision SUR CERTAINES cibles, mais la variance inter-run reste élevée (std > mean). Ce qui marche : capter implicitement les cross-terms via J(θ) variable. Ce qui reste à résoudre : robustesse aux cibles dégénérées et aux configurations singulières. Travail public sur dyad. »*
+
+---
+
+## Validation statistique (faille critique identifiée par Yoan)
+
+**Critique formulée :** *« 0.034 m sur combien de runs ? Si c'est 1 run de 15 cibles → ce chiffre n'est pas reproductible au sens statistique. Un reviewer demande systématiquement : what's the standard deviation? »*
+
+**Réponse correctrice appliquée :** N=10 seeds exécutés en mode headless (sans viewer, rapide), reportés ci-dessus. Code dans [`agents/cyborg-robotique-V1.0/eval_v4_stats.py`](../agents/cyborg-robotique-V1.0/eval_v4_stats.py).
+
+**Leçon méthodologique :** dans un cycle équipe augmentée rapide (intuition → code → test → résultat en 30 min), la tentation est de cherry-picker le best-case visuel observé. Yoan a rappelé la discipline statistique. Pour les futures itérations math du sprint, **chaque claim numérique doit venir avec N≥5 et std reporté**, sinon c'est de l'anecdote.
 
 ---
 

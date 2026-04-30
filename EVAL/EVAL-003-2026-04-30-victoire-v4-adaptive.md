@@ -1,4 +1,6 @@
-# EVAL-003 — V4 Adaptive : victoire complète (J+10), 2026-04-30
+# EVAL-003 — V4 Adaptive : itération (J+10), 2026-04-30
+
+> ⚠️ **NOTE DE CORRECTION 2026-04-30 ~06h :** cette EVAL-003 reportait V4 = 0.034 m sur SO-100. Suite à faille statistique critique identifiée par Yoan (N=1 run cherry-pické), le chiffre réel sur N=10 seeds est **0.159 ± 0.121 m** (mean ± std inter-run). Voir [`RAPPORT-TRIPLE-VICTOIRE-MATH.md`](RAPPORT-TRIPLE-VICTOIRE-MATH.md) version révisée pour les vrais chiffres + analyse complète. Les insights mathématiques (champ directionnel, ordre 2, identification online) restent valides qualitativement.
 
 > Troisième EVAL du sprint. Documente la victoire scientifique majeure du jour : V4 ADAPTIVE atteint 0.034 m sur SO-ARM100, 4× meilleur que V1 et 6.5× meilleur que le baseline avec IK oracle.
 

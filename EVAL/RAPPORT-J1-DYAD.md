@@ -1,5 +1,7 @@
 # RAPPORT J+1 — Sprint Print Your Own Optimus / Repo dyad
 
+> ⚠️ **NOTE DE CORRECTION 2026-04-30 ~06h :** ce rapport mentionne 0.034 m comme score V4 ADAPTIVE. Faille statistique identifiée par Yoan : c'était un cherry-pick d'un seul seed. Voir [`RAPPORT-TRIPLE-VICTOIRE-MATH.md`](RAPPORT-TRIPLE-VICTOIRE-MATH.md) version révisée — **vrais chiffres : 0.159 ± 0.121 m (n=10 seeds) sur SO-100**.
+
 > Premier rapport narratif de la journée. Couvre du 2026-04-29 ~21h au 2026-04-30 ~04h.
 > Audience : Yoan, futurs collaborateurs, prochains Claude qui ouvrent la session, lecteurs publics du repo dyad.
 > Format : narratif chronologique factuel, pas de glaze, pas de pessimisme. Ce qui a été fait, ce qui a changé.
