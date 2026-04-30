@@ -86,3 +86,6 @@ desktop.ini
 
 # --- Node ---
 node_modules/
+
+# --- External assets (clonés séparément, pas tracker dans dyad) ---
+agents/cyborg-robotique-V1.0/external/

@@ -31,14 +31,21 @@ Sprint 30 jours du 2026-04-30 au 2026-05-26. Détail : `personnel/objectifopus47
 
 ## Installation (en cours de définition)
 
-Prérequis : Python 3.10+ (testé 3.14), pip.
+Prérequis : Python 3.10+ (testé 3.14), pip, git.
 
 ```bash
+# 1. Dépendances Python
 pip install -r requirements.txt
-python 01_setup_test.py
+
+# 2. Assets externes (bras MJCF calibrés)
+git clone --depth=1 https://github.com/google-deepmind/mujoco_menagerie.git external/mujoco_menagerie
+
+# 3. Tests
+python 01_setup_test.py        # bras 2 DoF jouet (validation MuJoCo)
+python 02_load_so_arm100.py    # bras SO-ARM100 6 DoF (LeRobot HuggingFace)
 ```
 
-Si tout fonctionne : une fenêtre s'ouvre avec un bras 2 DoF qui bouge en sinusoïde dans MuJoCo.
+Si tout fonctionne : une fenêtre s'ouvre avec le bras qui bouge dans MuJoCo.
 
 ## Roadmap V0.1 → V1.0
 
