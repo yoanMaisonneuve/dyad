@@ -87,6 +87,7 @@ def main():
         application_step=0.5,
         learning_rate_M=0.3,
         seed=42,
+        tip_pair=("Fixed_Jaw", "Moving_Jaw"),  # vrai tip = milieu des 2 mâchoires
     )
 
     rng = np.random.default_rng(42)

@@ -30,6 +30,7 @@ class CyborgChampAgent:
         application_step: float = 0.5,
         learning_rate_M: float = 0.3,
         seed: int = 42,
+        tip_pair: tuple = None,  # (body_name_a, body_name_b) -> tip = milieu
     ):
         self.model = model
         self.data = data
@@ -41,6 +42,13 @@ class CyborgChampAgent:
         )
         if self.body_id == -1:
             raise ValueError(f"Body '{end_effector_body}' introuvable.")
+
+        # Vrai tip = milieu de 2 bodies (gripper jaws/fingers) si fourni
+        self.tip_id_a = -1
+        self.tip_id_b = -1
+        if tip_pair is not None:
+            self.tip_id_a = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, tip_pair[0])
+            self.tip_id_b = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, tip_pair[1])
 
         self.joint_limits = self._extract_joint_limits()
 
@@ -75,6 +83,9 @@ class CyborgChampAgent:
         theta_clipped = np.clip(theta, low, high)
         self.data.qpos[: self.n_dof] = theta_clipped
         mujoco.mj_forward(self.model, self.data)
+        # Vrai tip = milieu des 2 jaws si fourni, sinon body_id
+        if self.tip_id_a >= 0 and self.tip_id_b >= 0:
+            return (self.data.xpos[self.tip_id_a] + self.data.xpos[self.tip_id_b]) / 2.0
         return self.data.xpos[self.body_id].copy()
 
     def reset_reference(self):
